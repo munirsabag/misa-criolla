@@ -4,10 +4,18 @@ import { site } from '../data/site.js';
 
 <section class="hero">
   <div class="hero-bg">
+    <!-- Desktop: backdrop horizontal -->
     <img
       src="/images/backdrop.jpg"
       alt="Misa Criolla com Jean William"
-      class="hero-image"
+      class="hero-image hero-image-desktop"
+      loading="eager"
+    />
+    <!-- Mobile: arte vertical (stories) -->
+    <img
+      src="/images/backdrop-mobile.png"
+      alt="Misa Criolla com Jean William"
+      class="hero-image hero-image-mobile"
       loading="eager"
     />
     <div class="hero-overlay"></div>
@@ -22,11 +30,11 @@ import { site } from '../data/site.js';
       <a href="#agenda" class="btn btn-primary">Ver agenda de shows</a>
       <a href="#sobre" class="btn">Sobre o espetáculo</a>
     </div>
-  </div>
 
-  <div class="hero-scroll" aria-hidden="true">
-    <span>Role para descobrir</span>
-    <div class="scroll-line"></div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Role para descobrir</span>
+      <div class="scroll-line"></div>
+    </div>
   </div>
 </section>
 
@@ -52,8 +60,11 @@ import { site } from '../data/site.js';
     object-position: center top;
   }
 
-  /* Overlay com transparência no topo (deixa o backdrop aparecer)
-     e gradiente forte só no final pra fundir com o resto do site */
+  /* Por padrão, mostra a versão desktop e esconde a mobile */
+  .hero-image-mobile {
+    display: none;
+  }
+
   .hero-overlay {
     position: absolute;
     inset: 0;
@@ -66,7 +77,7 @@ import { site } from '../data/site.js';
     );
   }
 
-  /* Conteúdo posicionado embaixo, NÃO encavala com o título da imagem */
+  /* Conteúdo posicionado embaixo, sem encavalar com o título da imagem */
   .hero-content {
     position: absolute;
     bottom: 0;
@@ -74,9 +85,13 @@ import { site } from '../data/site.js';
     transform: translateX(-50%);
     width: 100%;
     max-width: 720px;
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
     text-align: center;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
 
   .hero-descricao {
@@ -84,7 +99,7 @@ import { site } from '../data/site.js';
     line-height: 1.7;
     color: var(--cor-texto);
     max-width: 560px;
-    margin: 0 auto 2rem;
+    margin: 0 auto;
   }
 
   .hero-cta {
@@ -94,16 +109,14 @@ import { site } from '../data/site.js';
     justify-content: center;
   }
 
+  /* "Role para descobrir" agora vive DENTRO do hero-content,
+     com espaço próprio (gap do container pai dá respiro) */
   .hero-scroll {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    z-index: 3;
+    margin-top: 2rem;
   }
 
   .hero-scroll span {
@@ -125,30 +138,51 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
+  /* MOBILE: usa a arte vertical (stories) */
   @media (max-width: 768px) {
-    .hero-image {
-      object-position: 70% top;
+    .hero-image-desktop {
+      display: none;
+    }
+
+    .hero-image-mobile {
+      display: block;
+      object-position: center top;
     }
 
     .hero-overlay {
       background: linear-gradient(
         180deg,
         transparent 0%,
-        rgba(31, 20, 12, 0.5) 50%,
+        transparent 55%,
+        rgba(31, 20, 12, 0.85) 80%,
         rgba(31, 20, 12, 1) 100%
       );
     }
 
     .hero-content {
-      padding-bottom: 3rem;
+      padding-bottom: 2rem;
+      gap: 1.5rem;
     }
 
     .hero-descricao {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding: 0 1rem;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+      padding: 0 1rem;
+      gap: 0.75rem;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
     }
 
     .hero-scroll {
-      display: none;
+      margin-top: 1rem;
     }
   }
 </style>

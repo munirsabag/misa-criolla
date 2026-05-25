@@ -90,7 +90,7 @@ export const parceiros = {
       titulo: 'Apoio',
       items: [
         { nome: 'Dama Infra', logo: '/images/logos/dama-infra.png', site: 'https://damainfra.com.br' },
-        { nome: 'Instituto Voccalia', logo: '/images/logos/voccalia.png', site: 'https://voccalia.org.br' },
+        { nome: 'Instituto Voccalia', logo: '/images/logos/voccalia.png', site: 'https://voccalia.org' },
       ],
     },
     {

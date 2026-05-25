@@ -1,0 +1,72 @@
+{
+  "$ref": "#/definitions/agenda",
+  "definitions": {
+    "agenda": {
+      "type": "object",
+      "properties": {
+        "cidade": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "data": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "hora": {
+          "type": "string"
+        },
+        "local": {
+          "type": "string"
+        },
+        "endereco": {
+          "type": "string"
+        },
+        "coro": {
+          "type": "string"
+        },
+        "ingressos": {
+          "type": "string"
+        },
+        "ingressoTipo": {
+          "type": "string",
+          "default": "Gratuito"
+        },
+        "feed": {
+          "type": "string"
+        },
+        "ordem": {
+          "type": "number",
+          "default": 0
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cidade",
+        "estado",
+        "data",
+        "hora",
+        "local",
+        "endereco",
+        "coro"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

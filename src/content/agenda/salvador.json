@@ -7,7 +7,8 @@
   "endereco": "Largo do Pelourinho, s/n",
   "coro": "Coro do ICBIE",
   "ingressos": "",
-  "ingressoTipo": "Gratuito",
+  "ingressoTipo": "Entrada franca",
+  "mostrarIngresso": false,
   "feed": "/images/agenda/feed-salvador.png",
   "ordem": 2
 }

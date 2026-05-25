@@ -4,7 +4,7 @@ export const site = {
   nome: 'Misa Criolla',
   tagline: 'com Jean William',
   tituloCompleto: 'Misa Criolla com Jean William',
-  descricaoCurta: 'Uma leitura brasileira da obra-prima de Ariel Ramírez, em diálogo com a música sacra latino-americana e o cancioneiro brasileiro contemporâneo.',
+  descricaoCurta: 'Uma leitura brasileira da obra-prima de Ariel Ramírez na voz do tenor Jean William, em diálogo com a música sacra latino-americana e o cancioneiro brasileiro contemporâneo.',
   email: 'paulohmoura@gmail.com',
   telefone: '(11) 94710-7622',
   assessoria: 'Paulo Henrique de Moura',

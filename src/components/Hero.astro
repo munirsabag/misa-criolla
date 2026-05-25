@@ -135,20 +135,16 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* MOBILE: Quebra o posicionamento absoluto para evitar conflito com a imagem */
+  /* MOBILE FIX DEFENSIVO */
   @media (max-width: 768px) {
     .hero {
-      display: flex;
-      flex-direction: column;
-      min-height: auto;
-      background: rgba(31, 20, 12, 1); /* Garante o fundo institucional escuro na quebra */
+      min-height: 100vh;
+      display: block;
     }
 
     .hero-bg {
-      position: relative; /* Transforma o banner em um bloco estático no topo */
-      width: 100%;
-      height: auto;
-      aspect-ratio: 9 / 16; /* Força a imagem a manter a proporção exata de Story */
+      position: absolute;
+      inset: 0;
     }
 
     .hero-image-desktop {
@@ -157,51 +153,51 @@ import { site } from '../data/site.js';
 
     .hero-image-mobile {
       display: block;
-      position: relative;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top; /* Garante o rosto do cantor e o título legíveis no topo */
     }
 
     .hero-overlay {
-      /* Gradiente suave apenas para suavizar a transição com a seção de baixo */
-      background: linear-gradient(
-        180deg,
-        transparent 80%,
-        rgba(31, 20, 12, 1) 100%
-      );
+      background: rgba(31, 20, 12, 0.4); /* Escurece o fundo de leve para dar contraste geral */
     }
 
     .hero-content {
-      position: relative; /* Remove a flutuação absoluta */
-      bottom: auto;
-      left: auto;
-      transform: none;
-      width: 100%;
-      padding: 3rem 1.5rem; /* Respiro generoso em cima e embaixo do texto */
-      gap: 1.5rem;
-      background: rgba(31, 20, 12, 1);
+      position: absolute;
+      bottom: 110px; /* Fixa o bloco de conteúdo bem acima da régua de logos da imagem */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%; /* Deixa uma margem elegante nas laterais */
+      max-height: 45vh; /* Impede o texto de subir demais e cobrir o rosto do Jean */
+      overflow-y: auto; /* Se a tela for muito pequena, o texto vira rolável por segurança */
+      background: rgba(31, 20, 12, 0.85); /* Caixa escura translúcida isolando o texto dos logos */
+      padding: 1.5rem 1.25rem;
+      border-radius: 12px;
+      gap: 1.25rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
     .hero-descricao {
-      font-size: 0.95rem; /* Tamanho confortável para leitura */
-      line-height: 1.6;
+      font-size: 0.88rem; /* Fonte compacta e elegante */
+      line-height: 1.5;
       padding: 0;
     }
 
     .hero-cta {
       flex-direction: column;
       width: 100%;
-      padding: 0;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .hero-cta .btn {
       width: 100%;
+      padding: 0.75rem 1rem; /* Botões ligeiramente mais compactos para poupar espaço vertical */
     }
 
+    /* Esconde a linha de scroll no mobile para economizar espaço precioso de tela */
     .hero-scroll {
-      margin-top: 1.5rem;
+      display: none;
     }
   }
 </style>

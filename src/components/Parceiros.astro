@@ -1,0 +1,278 @@
+---
+import { parceiros } from '../data/site.js';
+
+export interface Props {
+  mostrarCabecalho?: boolean;
+}
+
+const { mostrarCabecalho = true } = Astro.props;
+---
+
+<section id={mostrarCabecalho ? 'parceiros' : undefined} class={`parceiros ${mostrarCabecalho ? '' : 'parceiros-compacto'}`}>
+  {mostrarCabecalho && (
+    <div class="container">
+      <div class="parceiros-header">
+        <p class="eyebrow">Quem viabiliza</p>
+        <h2 class="parceiros-titulo">
+          <span class="italico">parceiros</span>
+        </h2>
+        <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path
+            d="M10,15 Q50,5 100,15 T190,15"
+            stroke="currentColor"
+            stroke-width="1"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+    </div>
+  )}
+
+  <!-- Faixa branca unificada (full-width — escapa do container) -->
+  <div class="parceiros-faixa">
+    <!-- À esquerda: destaque (Lei Rouanet sem título) -->
+    {parceiros.destaque.length > 0 && (
+      <div class="parceiros-destaque">
+        {parceiros.destaque.map((item) => (
+          <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
+            <img src={item.logo} alt={item.nome} loading="lazy" />
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- Demais grupos com título -->
+    <div class="parceiros-grupos">
+      {parceiros.grupos.map((grupo) => (
+        <div class="parceiros-grupo">
+          <p class="parceiros-categoria">{grupo.titulo}</p>
+          <div class="parceiros-logos">
+            {grupo.items.map((item) => (
+              <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
+                <img src={item.logo} alt={item.nome} loading="lazy" />
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Versão compacta (sem cabeçalho) — usada como separador entre seções */
+  .parceiros-compacto {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .parceiros-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .parceiros-titulo {
+    line-height: 1;
+    font-style: italic;
+    color: var(--cor-acento-quente);
+  }
+
+  .flourish {
+    color: var(--cor-acento);
+    margin: 1rem auto 0;
+    display: block;
+  }
+
+  /* Faixa branca unificada — full-width, de borda a borda */
+  .parceiros-faixa {
+    background: #ffffff;
+    padding: 2.5rem clamp(2rem, 6vw, 5rem);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .parceiros-destaque {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 3rem;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    align-self: center;
+  }
+
+  .parceiros-destaque .logo-link {
+    padding: 0;
+    min-height: auto;
+  }
+
+  .parceiros-destaque .logo-link img {
+    max-height: 100px;
+    max-width: 270px;
+  }
+
+  .parceiros-grupos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .parceiros-grupo {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .parceiros-categoria {
+    font-family: var(--fonte-texto);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #5a4530;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .parceiros-logos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    width: 100%;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    transition: opacity var(--transicao), transform var(--transicao);
+  }
+
+  .logo-link:hover {
+    opacity: 0.75;
+    transform: translateY(-2px);
+  }
+
+  .logo-link img {
+    max-height: 50px;
+    max-width: 140px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 900px) {
+    /* ============================================
+       MOBILE - BARRA COM CABEÇALHO (a de baixo, PARCEIROS)
+       Empilha tudo: layout original
+       ============================================ */
+
+    .parceiros-faixa {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 2rem 1.5rem;
+    }
+
+    .parceiros-destaque {
+      padding-right: 0;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+      border-right: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      justify-content: center;
+    }
+
+    .parceiros-destaque .logo-link img {
+      max-height: 60px;
+      max-width: 220px;
+    }
+
+    .parceiros-grupos {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .parceiros-grupo {
+      text-align: center;
+    }
+
+    .parceiros-categoria {
+      margin-bottom: 1rem;
+    }
+
+    .parceiros-logos {
+      flex-direction: column;
+      min-height: auto;
+      gap: 1.5rem;
+    }
+
+    .logo-link img {
+      max-height: 60px;
+      max-width: 220px;
+    }
+
+    /* ============================================
+       MOBILE - VERSÃO COMPACTA (barra de cima, entre Hero e Sobre)
+       Tudo horizontal, mesmo bem pequeno. "Carimbo institucional".
+       ============================================ */
+
+    .parceiros-compacto .parceiros-faixa {
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+      padding: 0.75rem 0.5rem;
+      align-items: center;
+    }
+
+    .parceiros-compacto .parceiros-destaque {
+      padding-right: 0.5rem;
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: none;
+    }
+
+    .parceiros-compacto .parceiros-destaque .logo-link img {
+      max-height: 24px;
+      max-width: 65px;
+    }
+
+    .parceiros-compacto .parceiros-grupos {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.3rem;
+    }
+
+    .parceiros-compacto .parceiros-categoria {
+      font-size: 0.4rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .parceiros-compacto .parceiros-logos {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+      min-height: auto;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .parceiros-compacto .logo-link {
+      min-height: 20px;
+      flex: 1;
+    }
+
+    .parceiros-compacto .logo-link img {
+      max-height: 20px;
+      max-width: 100%;
+    }
+  }
+</style>

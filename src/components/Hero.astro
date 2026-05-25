@@ -135,16 +135,10 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* MOBILE FIX DEFENSIVO */
+  /* AJUSTE PARA ESTREITAR A IMAGEM NO MOBILE */
   @media (max-width: 768px) {
     .hero {
-      min-height: 100vh;
-      display: block;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
+      background-color: #1f140c; /* Cor de fundo idêntica à arte para preencher as sobras laterais */
     }
 
     .hero-image-desktop {
@@ -155,31 +149,32 @@ import { site } from '../data/site.js';
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center top; /* Garante o rosto do cantor e o título legíveis no topo */
+      object-fit: contain; /* Estreita a imagem para caber inteira na largura sem cortes */
+      object-position: center top;
     }
 
     .hero-overlay {
-      background: rgba(31, 20, 12, 0.4); /* Escurece o fundo de leve para dar contraste geral */
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 70%,
+        rgba(31, 20, 12, 0.95) 90%,
+        rgba(31, 20, 12, 1) 100%
+      );
     }
 
     .hero-content {
       position: absolute;
-      bottom: 110px; /* Fixa o bloco de conteúdo bem acima da régua de logos da imagem */
+      bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%; /* Deixa uma margem elegante nas laterais */
-      max-height: 45vh; /* Impede o texto de subir demais e cobrir o rosto do Jean */
-      overflow-y: auto; /* Se a tela for muito pequena, o texto vira rolável por segurança */
-      background: rgba(31, 20, 12, 0.85); /* Caixa escura translúcida isolando o texto dos logos */
-      padding: 1.5rem 1.25rem;
-      border-radius: 12px;
+      width: 100%;
+      padding: 0 1.5rem 2rem 1.5rem;
       gap: 1.25rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
     .hero-descricao {
-      font-size: 0.88rem; /* Fonte compacta e elegante */
+      font-size: 0.88rem; /* Fonte ligeiramente menor para encaixar perfeitamente */
       line-height: 1.5;
       padding: 0;
     }
@@ -187,17 +182,15 @@ import { site } from '../data/site.js';
     .hero-cta {
       flex-direction: column;
       width: 100%;
-      gap: 0.65rem;
+      gap: 0.75rem;
     }
 
     .hero-cta .btn {
       width: 100%;
-      padding: 0.75rem 1rem; /* Botões ligeiramente mais compactos para poupar espaço vertical */
     }
 
-    /* Esconde a linha de scroll no mobile para economizar espaço precioso de tela */
     .hero-scroll {
-      display: none;
+      margin-top: 0.5rem;
     }
   }
 </style>

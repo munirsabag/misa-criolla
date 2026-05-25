@@ -68,10 +68,10 @@ import { site } from '../data/site.js';
     min-height: 100dvh;
   }
 
-  /* CONTEÚDO COMPLETAMENTE CRAVADO NO LIMITE INFERIOR EXTREMO */
+  /* CONTEÚDO CRAVADO COM AJUSTE FINO DE ALTURA */
   .hero-content {
     position: absolute;
-    bottom: -60px; /* Aumentado drasticamente para forçar o bloco para a base absoluta da tela */
+    bottom: -35px; /* Subiu o equivalente a metade do recuo anterior para equilibrar o respiro */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -82,7 +82,7 @@ import { site } from '../data/site.js';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem; /* Compacta ligeiramente o bloco verticalmente */
+    gap: 1.25rem;
   }
 
   .hero-descricao {
@@ -91,7 +91,7 @@ import { site } from '../data/site.js';
     color: var(--cor-texto);
     max-width: 560px;
     margin: 0 auto;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9); /* Sombra mais densa para contraste extra */
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
   }
 
   .hero-cta {
@@ -105,8 +105,8 @@ import { site } from '../data/site.js';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.1rem; /* Margem quase zerada para espremer o indicador na base */
+    gap: 0.5rem;
+    margin-top: 0.25rem;
   }
 
   .hero-scroll span {

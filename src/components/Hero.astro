@@ -59,7 +59,7 @@ import { site } from '../data/site.js';
     height: 0;
     padding-top: 56.25%; /* Proporção exata de 16:9 do backdrop.jpg */
     
-    background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.9) 85%, rgba(31, 20, 12, 1) 100%), 
+    background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.95) 85%, rgba(31, 20, 12, 1) 100%), 
                       url('/images/backdrop.jpg');
     background-size: cover;
     background-position: center top;
@@ -68,10 +68,10 @@ import { site } from '../data/site.js';
     min-height: 100dvh;
   }
 
-  /* CONTEÚDO COMPLETAMENTE CRAVADO NO LIMITE INFERIOR */
+  /* CONTEÚDO COMPLETAMENTE CRAVADO NO LIMITE INFERIOR EXTREMO */
   .hero-content {
     position: absolute;
-    bottom: -15px; /* Puxa todo o bloco ao limite extremo de baixo para liberar o título */
+    bottom: -60px; /* Aumentado drasticamente para forçar o bloco para a base absoluta da tela */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -82,7 +82,7 @@ import { site } from '../data/site.js';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem; /* Reduzido para compactar o bloco verticalmente */
+    gap: 1rem; /* Compacta ligeiramente o bloco verticalmente */
   }
 
   .hero-descricao {
@@ -91,7 +91,7 @@ import { site } from '../data/site.js';
     color: var(--cor-texto);
     max-width: 560px;
     margin: 0 auto;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9); /* Sombra mais densa para contraste extra */
   }
 
   .hero-cta {
@@ -105,8 +105,8 @@ import { site } from '../data/site.js';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.25rem; /* Ajuste fino para achatar o respiro do indicador de scroll */
+    gap: 0.4rem;
+    margin-top: 0.1rem; /* Margem quase zerada para espremer o indicador na base */
   }
 
   .hero-scroll span {

@@ -126,4 +126,47 @@ import { site } from '../data/site.js';
   .scroll-line {
     width: 1px;
     height: 30px;
-    background: linear-gradient(to bottom, transparent,
+    background: linear-gradient(to bottom, transparent, var(--cor-acento), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* LAYOUT SEQUENCIAL PARA MOBILE (SEM SOBREPOSIÇÃO) */
+  @media (max-width: 768px) {
+    .hero {
+      display: block;
+      min-height: auto;
+      background-color: #1f140c; /* Fundo institucional unificado */
+      overflow: visible;
+    }
+
+    .hero-bg {
+      position: relative; /* Ocupa espaço físico real no topo */
+      width: 100%;
+      height: calc(100vh - 180px); /* Garante que a imagem preencha a maior parte da tela antes do texto */
+    }
+
+    .hero-image-desktop {
+      display: none;
+    }
+
+    .hero-image-mobile {
+      display: block;
+      position: relative;
+      width: 88%;
+      height: 100%;
+      margin: 0 auto;
+      object-fit: contain;
+      object-position: center top;
+    }
+
+    .hero-overlay {
+      display: none; /* Remove o degradê antigo para não manchar a arte */
+    }
+
+    .hero-content {
+      position: relative;

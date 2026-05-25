@@ -13,6 +13,7 @@ const agenda = defineCollection({
     coro: z.string(),
     ingressos: z.string().optional(),
     ingressoTipo: z.string().default('Gratuito'),
+    mostrarIngresso: z.boolean().default(true),
     feed: z.string().optional(),
     ordem: z.number().default(0),
   }),

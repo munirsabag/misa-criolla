@@ -45,6 +45,10 @@
           "type": "string",
           "default": "Gratuito"
         },
+        "mostrarIngresso": {
+          "type": "boolean",
+          "default": true
+        },
         "feed": {
           "type": "string"
         },

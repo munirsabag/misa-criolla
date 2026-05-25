@@ -31,7 +31,6 @@ import { fichaTecnica } from '../data/site.js';
           )}
 
           <div class="pessoa-info">
-            <p class="pessoa-numero">{String(index + 1).padStart(2, '0')}</p>
             <h3 class="pessoa-nome">{pessoa.nome}</h3>
             <p class="pessoa-funcao">{pessoa.funcao}</p>
             <p class="pessoa-bio">{pessoa.bio}</p>
@@ -118,14 +117,6 @@ import { fichaTecnica } from '../data/site.js';
 
   .pessoa:hover .pessoa-foto {
     transform: scale(1.03);
-  }
-
-  .pessoa-numero {
-    font-family: var(--fonte-display);
-    font-size: 1.25rem;
-    color: var(--cor-acento);
-    font-style: italic;
-    margin-bottom: 0.5rem;
   }
 
   .pessoa-nome {

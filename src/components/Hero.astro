@@ -135,10 +135,11 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* REGRA DO MOBILE COM POSICIONAMENTO NO ESPAÇO VAZIO */
+  /* CORREÇÃO DO FLUXO VERTICAL NO MOBILE */
   @media (max-width: 768px) {
     .hero {
       background-color: #1f140c;
+      padding-top: 5vh;     /* Cria o padding no topo para afastar a imagem do limite da tela */
     }
 
     .hero-image-desktop {
@@ -148,21 +149,22 @@ import { site } from '../data/site.js';
     .hero-image-mobile {
       display: block;
       position: absolute;
-      top: 0;
+      top: 5vh;             /* Alinha o topo da imagem com o novo padding da tela */
       left: 50%;
       transform: translateX(-50%);
       width: 88%;
-      height: 100%;
+      height: calc(100% - 5vh);
       object-fit: contain;
       object-position: center top;
     }
 
     .hero-overlay {
       position: absolute;
-      inset: 0;
-      width: 88%;
+      top: 5vh;
       left: 50%;
       transform: translateX(-50%);
+      width: 88%;
+      height: calc(100% - 5vh);
       background: linear-gradient(
         180deg,
         transparent 0%,
@@ -176,10 +178,10 @@ import { site } from '../data/site.js';
     .hero-content {
       position: absolute;
       bottom: auto;
-      top: 38%;            /* Subiu o bloco para se posicionar no vão livre da imagem */
-      transform: translate(-50%, -50%);
+      top: 15%;             /* Puxa o bloco de texto agressivamente para cima */
+      left: 50%;
+      transform: translateX(-50%); /* Remove o ajuste de -50% no Y para não forçar o texto para baixo */
       width: 85%;
-      padding-top: 2rem;   /* Adiciona o padding extra em cima para dar respiro */
       gap: 1.25rem;
       padding-bottom: 0;
     }
@@ -188,7 +190,7 @@ import { site } from '../data/site.js';
       font-size: 0.85rem;
       line-height: 1.5;
       padding: 0 0.5rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9); /* Garante leitura perfeita no fundo escuro */
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
     }
 
     .hero-cta {

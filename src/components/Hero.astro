@@ -39,12 +39,15 @@ import { site } from '../data/site.js';
 <style>
   .hero {
     position: relative;
-    min-height: 100dvh;
+    height: 100dvh; /* Força a seção a ter exatamente a altura da tela visual */
+    min-height: 650px; /* Impede que o site achate demais em telas muito baixas */
     overflow: hidden;
-    background-color: rgba(31, 20, 12, 1); /* Garante que o fundo preencha as laterais ou bases sem emendas */
+    background-color: rgba(31, 20, 12, 1);
+    
+    /* Nova estrutura: O layout vira um grid vertical fixo */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Garante que o conteúdo nasça ancorado na base */
+    justify-content: flex-end; /* Empurra o conteúdo para a parte de baixo */
   }
 
   .hero-bg {
@@ -58,11 +61,10 @@ import { site } from '../data/site.js';
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Mantém a proporção exata da imagem sem dar zoom ou cortar o título */
-    object-position: center top; /* Fixa o topo da imagem alinhado ao topo da seção */
+    object-fit: cover; /* Aceita o corte da imagem conforme o navegador redimensiona */
+    object-position: center 20%; /* Ajusta o foco do corte um pouco abaixo do topo para tentar segurar o título */
   }
 
-  /* Por padrão, mostra a versão desktop e esconde a mobile */
   .hero-image-mobile {
     display: none;
   }
@@ -73,34 +75,35 @@ import { site } from '../data/site.js';
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(31, 20, 12, 0) 50%,
-      rgba(31, 20, 12, 0.7) 80%,
-      rgba(31, 20, 12, 1) 100
+      rgba(31, 20, 12, 0.4) 50%,
+      rgba(31, 20, 12, 0.95) 85%, /* Escurecimento pesado e estático para engolir qualquer sobra de imagem */
+      rgba(31, 20, 12, 1) 100%
     );
   }
 
-  /* Bloco de conteúdo centralizado */
+  /* O conteúdo agora é estático em relação à base da seção */
   .hero-content {
-    position: relative;
+    position: relative; /* Sai do absolute para respeitar o fluxo do flex-end */
     width: 100%;
-    max-width: 800px; /* Um pouco mais largo para acomodar o texto em menos linhas */
+    max-width: 720px;
     margin: 0 auto;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem; /* Distância fixa da borda inferior da tela */
     text-align: center;
     z-index: 2;
     
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.75rem;
+    gap: 2rem;
   }
 
   .hero-descricao {
     font-size: 1.05rem;
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--cor-texto);
-    max-width: 600px;
+    max-width: 560px;
     margin: 0 auto;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Garante leitura se a imagem vazar por baixo */
   }
 
   .hero-cta {
@@ -137,19 +140,7 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* TELAS INTERMEDIÁRIAS: Ajustes finos de texto para notebooks */
-  @media (max-width: 1100px) {
-    .hero-content {
-      gap: 1.25rem;
-      padding-bottom: 2.5rem;
-    }
-    .hero-descricao {
-      font-size: 1rem;
-      max-width: 540px;
-    }
-  }
-
-  /* MOBILE: Transiciona para a arte vertical (stories) */
+  /* MOBILE */
   @media (max-width: 768px) {
     .hero-image-desktop {
       display: none;
@@ -157,26 +148,13 @@ import { site } from '../data/site.js';
 
     .hero-image-mobile {
       display: block;
-      object-fit: cover; /* No mobile, a arte vertical geralmente funciona melhor cobrindo a tela */
+      object-fit: cover;
       object-position: center top;
     }
 
-    .hero-overlay {
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        transparent 50%,
-        rgba(31, 20, 12, 0.85) 75%,
-        rgba(31, 20, 12, 1) 100
-      );
-    }
-
     .hero-content {
-      height: 100dvh;
-      justify-content: flex-end;
-      max-height: 48dvh; /* Mantém o texto bem seguro na metade inferior do celular */
       padding-bottom: 2rem;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .hero-descricao {
@@ -194,10 +172,6 @@ import { site } from '../data/site.js';
 
     .hero-cta .btn {
       width: 100%;
-    }
-
-    .hero-scroll {
-      margin-top: 0.5rem;
     }
   }
 </style>

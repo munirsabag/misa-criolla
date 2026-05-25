@@ -219,5 +219,58 @@ const { mostrarCabecalho = true } = Astro.props;
       max-height: 60px;
       max-width: 220px;
     }
+
+    /* ============================================
+       VERSÃO COMPACTA (sem cabeçalho) no mobile:
+       força layout horizontal — como "carimbo institucional".
+       Logos ficam pequenos mas em linha, sem empilhar.
+       ============================================ */
+
+    .parceiros-compacto .parceiros-faixa {
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      padding: 1rem 0.75rem;
+      align-items: center;
+    }
+
+    .parceiros-compacto .parceiros-destaque {
+      padding-right: 0.75rem;
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: none;
+    }
+
+    .parceiros-compacto .parceiros-destaque .logo-link img {
+      max-height: 28px;
+      max-width: 80px;
+    }
+
+    .parceiros-compacto .parceiros-grupos {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+
+    .parceiros-compacto .parceiros-categoria {
+      font-size: 0.45rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+    }
+
+    .parceiros-compacto .parceiros-logos {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      min-height: auto;
+    }
+
+    .parceiros-compacto .logo-link {
+      min-height: 24px;
+    }
+
+    .parceiros-compacto .logo-link img {
+      max-height: 24px;
+      max-width: 60px;
+    }
   }
 </style>

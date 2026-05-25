@@ -22,15 +22,19 @@ import { site } from '../data/site.js';
   </div>
 
   <div class="hero-container-mobile">
-    <div class="hero-bg-mobile"></div>
+    <!-- Imagem como elemento img (não background) — assim aparece inteira sem corte -->
+    <img src="/images/backdrop-mobile.png" alt="Misa Criolla com Jean William" class="hero-image-mobile" />
+
     <div class="container hero-content-mobile">
       <p class="hero-descricao fade-up" style="animation-delay: 0.6s">
         {site.descricaoCurta}
       </p>
+
       <div class="hero-cta fade-up" style="animation-delay: 0.9s">
         <a href="#agenda" class="btn btn-primary">Ver agenda de shows</a>
         <a href="#sobre" class="btn">Sobre o espetáculo</a>
       </div>
+
       <div class="hero-scroll" aria-hidden="true">
         <span>Role para descobrir</span>
         <div class="scroll-line"></div>
@@ -58,12 +62,10 @@ import { site } from '../data/site.js';
     width: 100%;
     height: 0;
     padding-top: 56.25%; /* Proporção exata de 16:9 do backdrop.jpg */
-    
-    background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.95) 85%, rgba(31, 20, 12, 1) 100%), 
+    background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.95) 85%, rgba(31, 20, 12, 1) 100%),
                       url('/images/backdrop.jpg');
     background-size: cover;
     background-position: center top;
-    
     min-width: 100vw;
     min-height: 100dvh;
   }
@@ -71,14 +73,13 @@ import { site } from '../data/site.js';
   /* CONTEÚDO CRAVADO COM AJUSTE FINO DE ALTURA */
   .hero-content {
     position: absolute;
-    bottom: -35px; /* Subiu o equivalente a metade do recuo anterior para equilibrar o respiro */
+    bottom: -35px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 720px;
     text-align: center;
     z-index: 2;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -133,8 +134,14 @@ import { site } from '../data/site.js';
     display: none;
   }
 
-  /* LAYOUT MOBILE (Isolado na vertical) */
+  /* LAYOUT MOBILE — imagem inteira no topo + texto/botões embaixo */
   @media (max-width: 768px) {
+    .hero {
+      /* Solta a altura: agora cresce o necessário pra caber imagem + conteúdo */
+      min-height: 100dvh;
+      align-items: stretch;
+    }
+
     .hero-proporcional-desktop {
       display: none;
     }
@@ -142,38 +149,41 @@ import { site } from '../data/site.js';
     .hero-container-mobile {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       width: 100%;
-      height: 100dvh;
+      min-height: 100dvh;
       position: relative;
+      background-color: rgba(31, 20, 12, 1);
     }
 
-    .hero-bg-mobile {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.9) 80%, rgba(31, 20, 12, 1) 100%), 
-                        url('/images/backdrop-mobile.png');
-      background-size: cover;
-      background-position: center top;
-      z-index: 0;
+    /* Imagem ocupa o topo, mostrando inteira (sem corte) */
+    .hero-image-mobile {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 70dvh;
+      object-fit: contain;
+      object-position: top center;
     }
 
     .hero-content-mobile {
       position: relative;
       z-index: 2;
       width: 100%;
-      max-height: 48dvh;
+      padding-top: 1.5rem;
       padding-bottom: 2rem;
       text-align: center;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
+      flex: 1;
+      justify-content: center;
     }
 
     .hero-descricao {
       font-size: 0.9rem;
       line-height: 1.5;
       padding: 0 1.5rem;
+      text-shadow: none;
     }
 
     .hero-cta {

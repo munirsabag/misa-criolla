@@ -1,58 +1,72 @@
 ---
 import { parceiros } from '../data/site.js';
+
+export interface Props {
+  mostrarCabecalho?: boolean;
+}
+
+const { mostrarCabecalho = true } = Astro.props;
 ---
 
-<section id="parceiros" class="parceiros">
-  <div class="container">
-    <div class="parceiros-header">
-      <p class="eyebrow">Quem viabiliza</p>
-      <h2 class="parceiros-titulo">
-        <span class="italico">parceiros</span>
-      </h2>
-      <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path
-          d="M10,15 Q50,5 100,15 T190,15"
-          stroke="currentColor"
-          stroke-width="1"
-          fill="none"
-          stroke-linecap="round"
-        />
-      </svg>
+<section id={mostrarCabecalho ? 'parceiros' : undefined} class={`parceiros ${mostrarCabecalho ? '' : 'parceiros-compacto'}`}>
+  {mostrarCabecalho && (
+    <div class="container">
+      <div class="parceiros-header">
+        <p class="eyebrow">Quem viabiliza</p>
+        <h2 class="parceiros-titulo">
+          <span class="italico">parceiros</span>
+        </h2>
+        <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path
+            d="M10,15 Q50,5 100,15 T190,15"
+            stroke="currentColor"
+            stroke-width="1"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
     </div>
+  )}
 
-    <!-- Faixa branca unificada com todos os logos -->
-    <div class="parceiros-faixa">
-      <!-- À esquerda: destaque (Lei Rouanet sem título) -->
-      {parceiros.destaque.length > 0 && (
-        <div class="parceiros-destaque">
-          {parceiros.destaque.map((item) => (
-            <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
-              <img src={item.logo} alt={item.nome} loading="lazy" />
-            </a>
-          ))}
-        </div>
-      )}
-
-      <!-- Demais grupos com título -->
-      <div class="parceiros-grupos">
-        {parceiros.grupos.map((grupo) => (
-          <div class="parceiros-grupo">
-            <p class="parceiros-categoria">{grupo.titulo}</p>
-            <div class="parceiros-logos">
-              {grupo.items.map((item) => (
-                <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
-                  <img src={item.logo} alt={item.nome} loading="lazy" />
-                </a>
-              ))}
-            </div>
-          </div>
+  <!-- Faixa branca unificada (full-width — escapa do container) -->
+  <div class="parceiros-faixa">
+    <!-- À esquerda: destaque (Lei Rouanet sem título) -->
+    {parceiros.destaque.length > 0 && (
+      <div class="parceiros-destaque">
+        {parceiros.destaque.map((item) => (
+          <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
+            <img src={item.logo} alt={item.nome} loading="lazy" />
+          </a>
         ))}
       </div>
+    )}
+
+    <!-- Demais grupos com título -->
+    <div class="parceiros-grupos">
+      {parceiros.grupos.map((grupo) => (
+        <div class="parceiros-grupo">
+          <p class="parceiros-categoria">{grupo.titulo}</p>
+          <div class="parceiros-logos">
+            {grupo.items.map((item) => (
+              <a href={item.site} target="_blank" rel="noopener" class="logo-link" title={item.nome}>
+                <img src={item.logo} alt={item.nome} loading="lazy" />
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
+  /* Versão compacta (sem cabeçalho) — usada como separador entre seções */
+  .parceiros-compacto {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .parceiros-header {
     text-align: center;
     margin-bottom: 4rem;
@@ -70,15 +84,15 @@ import { parceiros } from '../data/site.js';
     display: block;
   }
 
-  /* Faixa branca unificada — todos os logos sobre fundo branco */
+  /* Faixa branca unificada — full-width, de borda a borda */
   .parceiros-faixa {
     background: #ffffff;
-    padding: 3rem;
-    border-radius: 4px;
+    padding: 2.5rem clamp(2rem, 6vw, 5rem);
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 3rem;
-    align-items: start;
+    align-items: center;
+    width: 100%;
   }
 
   .parceiros-destaque {
@@ -126,8 +140,9 @@ import { parceiros } from '../data/site.js';
 
   .parceiros-logos {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
     align-items: center;
     justify-content: center;
     min-height: 80px;
@@ -139,7 +154,6 @@ import { parceiros } from '../data/site.js';
     align-items: center;
     justify-content: center;
     min-height: 60px;
-    width: 100%;
     transition: opacity var(--transicao), transform var(--transicao);
   }
 
@@ -194,8 +208,9 @@ import { parceiros } from '../data/site.js';
       margin-bottom: 1rem;
     }
 
-    /* Logos uniformes no mobile - mesma altura pra todos */
+    /* Logos uniformes no mobile - mesma altura pra todos, empilhados */
     .parceiros-logos {
+      flex-direction: column;
       min-height: auto;
       gap: 1.5rem;
     }

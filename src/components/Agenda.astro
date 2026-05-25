@@ -72,23 +72,18 @@ function formatarData(data) {
                 </div>
               </div>
 
-              {show.data.mostrarIngresso !== false && (
-                <div class="show-ingresso">
-                  <p class="show-tipo">Ingresso {show.data.ingressoTipo}</p>
-                  {show.data.ingressos ? (
+              <div class="show-ingresso">
+                <p class="show-tipo">Ingresso {show.data.ingressoTipo}</p>
+                {show.data.mostrarIngresso !== false && (
+                  show.data.ingressos ? (
                     <a href={show.data.ingressos} class="btn btn-primary" target="_blank" rel="noopener">
                       Reservar ingresso
                     </a>
                   ) : (
                     <p class="show-em-breve">Ingressos em breve</p>
-                  )}
-                </div>
-              )}
-              {show.data.mostrarIngresso === false && (
-                <div class="show-ingresso">
-                  <p class="show-entrada-franca">{show.data.ingressoTipo}</p>
-                </div>
-              )}
+                  )
+                )}
+              </div>
             </div>
           </article>
         );

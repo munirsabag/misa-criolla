@@ -1,0 +1,113 @@
+---
+import { manifesto } from '../data/site.js';
+---
+
+<section id="sobre" class="sobre">
+  <div class="container sobre-grid">
+    <div class="sobre-titulo-wrapper">
+      <p class="eyebrow">O Espetáculo</p>
+      <h2 class="sobre-titulo">
+        <span>música sacra</span>
+        <span class="italico">e latinidades</span>
+      </h2>
+      <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M10,15 Q50,5 100,15 T190,15"
+          stroke="currentColor"
+          stroke-width="1"
+          fill="none"
+          stroke-linecap="round"
+        />
+      </svg>
+    </div>
+
+    <div class="sobre-texto">
+      {manifesto.paragrafos.map((paragrafo) => (
+        <p>{paragrafo}</p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sobre {
+    position: relative;
+  }
+
+  .sobre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cor-borda-forte), transparent);
+  }
+
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .sobre-titulo-wrapper {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .sobre-titulo {
+    line-height: 1;
+    margin-bottom: 0;
+  }
+
+  .sobre-titulo span {
+    display: block;
+  }
+
+  .sobre-titulo .italico {
+    font-style: italic;
+    color: var(--cor-acento-quente);
+  }
+
+  .flourish {
+    color: var(--cor-acento);
+    margin: 1.5rem 0 0;
+    margin-left: 0;
+  }
+
+  .sobre-texto p {
+    margin-bottom: 1.5rem;
+    color: var(--cor-texto-suave);
+    font-size: 1.05rem;
+  }
+
+  .sobre-texto p:first-child {
+    font-size: 1.25rem;
+    color: var(--cor-texto);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .sobre-texto p:first-child::first-letter {
+    font-family: var(--fonte-display);
+    font-size: 4rem;
+    float: left;
+    line-height: 0.85;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    color: var(--cor-acento);
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .sobre-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .sobre-titulo-wrapper {
+      position: static;
+    }
+  }
+</style>

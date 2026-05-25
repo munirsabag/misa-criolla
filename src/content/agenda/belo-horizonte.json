@@ -1,0 +1,13 @@
+{
+  "cidade": "Belo Horizonte",
+  "estado": "MG",
+  "data": "2026-05-31",
+  "hora": "19h00",
+  "local": "Teatro SESIMINAS",
+  "endereco": "R. Padre Marinho, 60 - Santa Efigênia",
+  "coro": "Madrigal Renascentista",
+  "ingressos": "https://bileto.sympla.com.br/event/120304",
+  "ingressoTipo": "Gratuito",
+  "feed": "/images/agenda/feed-bh.png",
+  "ordem": 1
+}

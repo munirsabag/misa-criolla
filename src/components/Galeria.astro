@@ -1,0 +1,106 @@
+---
+// Galeria — quando os concertos acontecerem, troque o conteúdo abaixo
+// pelas fotos reais (veja README.md pra instruções)
+---
+
+<section id="galeria" class="galeria">
+  <div class="container">
+    <div class="galeria-header">
+      <p class="eyebrow">Registros</p>
+      <h2 class="galeria-titulo">
+        <span class="italico">galeria</span>
+      </h2>
+      <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M10,15 Q50,5 100,15 T190,15"
+          stroke="currentColor"
+          stroke-width="1"
+          fill="none"
+          stroke-linecap="round"
+        />
+      </svg>
+    </div>
+
+    <div class="em-breve">
+      <svg class="em-breve-icone" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+        <path d="M30 14 L30 30 L40 36" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <h3 class="em-breve-titulo">em breve</h3>
+      <p class="em-breve-texto">
+        Os registros fotográficos do espetáculo estarão disponíveis aqui após o primeiro concerto,
+        em <strong>31 de maio de 2026</strong>, no Centro Cultural SESIMINAS, em Belo Horizonte.
+      </p>
+      <p class="em-breve-credito">Fotos por Ana Karina Zaratin</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .galeria {
+    background: var(--cor-fundo-gradient-1);
+  }
+
+  .galeria-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .galeria-titulo {
+    line-height: 1;
+    font-style: italic;
+    color: var(--cor-acento-quente);
+  }
+
+  .flourish {
+    color: var(--cor-acento);
+    margin: 1rem auto 0;
+    display: block;
+  }
+
+  .em-breve {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px solid var(--cor-borda);
+    background: rgba(61, 40, 24, 0.3);
+  }
+
+  .em-breve-icone {
+    width: 60px;
+    height: 60px;
+    color: var(--cor-acento);
+    margin-bottom: 1.5rem;
+  }
+
+  .em-breve-titulo {
+    font-family: var(--fonte-display);
+    font-size: 2.5rem;
+    font-style: italic;
+    color: var(--cor-acento-quente);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .em-breve-texto {
+    color: var(--cor-texto-suave);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .em-breve-texto strong {
+    color: var(--cor-texto);
+    font-weight: 500;
+  }
+
+  .em-breve-credito {
+    font-size: 0.85rem;
+    color: var(--cor-texto-muted);
+    font-style: italic;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--cor-borda);
+  }
+</style>

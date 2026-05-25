@@ -1,0 +1,196 @@
+---
+import { site } from '../data/site.js';
+---
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <span class="logo-titulo">Misa</span>
+      <span class="logo-titulo logo-italico">Criolla</span>
+      <span class="logo-sep">·</span>
+      <span class="logo-jean">com Jean William</span>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/#sobre">o espetáculo</a></li>
+        <li><a href="/#agenda">agenda</a></li>
+        <li><a href="/#ficha-tecnica">ficha técnica</a></li>
+        <li><a href="/#galeria">galeria</a></li>
+        <li><a href="/#parceiros">parceiros</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(31, 20, 12, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    gap: 2rem;
+  }
+
+  .logo {
+    font-family: var(--fonte-display);
+    color: var(--cor-texto);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35em;
+    flex-shrink: 0;
+  }
+
+  .logo-titulo {
+    font-size: 1.5rem;
+  }
+
+  .logo-italico {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .logo-sep {
+    color: var(--cor-acento);
+    margin: 0 0.25em;
+    opacity: 0.6;
+  }
+
+  .logo-jean {
+    font-family: var(--fonte-texto);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cor-texto-suave);
+    font-weight: 400;
+  }
+
+  .nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav a {
+    color: var(--cor-texto-suave);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .nav a:hover {
+    color: var(--cor-texto);
+  }
+
+  .nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--cor-acento);
+    transition: width var(--transicao);
+  }
+
+  .nav a:hover::after {
+    width: 100%;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--cor-texto);
+    transition: var(--transicao);
+  }
+
+  @media (max-width: 1024px) {
+    .logo-jean {
+      display: none;
+    }
+    .logo-sep {
+      display: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .nav {
+      position: fixed;
+      top: 4.5rem;
+      left: 0;
+      right: 0;
+      background: rgba(31, 20, 12, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 2rem;
+      transform: translateY(-100vh);
+      transition: transform var(--transicao);
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .nav.open {
+      transform: translateY(0);
+    }
+
+    .nav ul {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .nav a {
+      font-size: 1rem;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.querySelectorAll('.nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav?.classList.remove('open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

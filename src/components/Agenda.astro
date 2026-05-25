@@ -1,0 +1,295 @@
+---
+import { getCollection } from 'astro:content';
+
+const shows = await getCollection('agenda');
+const showsOrdenados = shows.sort((a, b) =>
+  a.data.data.getTime() - b.data.data.getTime()
+);
+
+const meses = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+
+function formatarData(data) {
+  // Usamos os métodos UTC pra evitar deslocamento de fuso horário
+  // (a data no JSON é tratada como UTC pelo Astro)
+  return {
+    dia: String(data.getUTCDate()).padStart(2, '0'),
+    mes: meses[data.getUTCMonth()],
+    ano: data.getUTCFullYear(),
+  };
+}
+---
+
+<section id="agenda" class="agenda">
+  <div class="container">
+    <div class="agenda-header">
+      <p class="eyebrow">Próximas Apresentações</p>
+      <h2 class="agenda-titulo">
+        <span>agenda</span>
+        <span class="italico">de shows</span>
+      </h2>
+      <svg class="flourish" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M10,15 Q50,5 100,15 T190,15"
+          stroke="currentColor"
+          stroke-width="1"
+          fill="none"
+          stroke-linecap="round"
+        />
+      </svg>
+    </div>
+
+    <div class="shows-list">
+      {showsOrdenados.map((show, index) => {
+        const dataFormatada = formatarData(show.data.data);
+        const ehImpar = index % 2 === 1;
+        return (
+          <article class={`show-card ${ehImpar ? 'invertido' : ''}`}>
+            {show.data.feed && (
+              <div class="show-feed">
+                <img src={show.data.feed} alt={`Arte de divulgação - ${show.data.cidade}`} loading="lazy" />
+              </div>
+            )}
+
+            <div class="show-info-wrapper">
+              <div class="show-data">
+                <span class="show-dia">{dataFormatada.dia}</span>
+                <div class="show-mes-ano">
+                  <span class="show-mes">{dataFormatada.mes}</span>
+                  <span class="show-ano">{dataFormatada.ano}</span>
+                </div>
+              </div>
+
+              <div class="show-info">
+                <h3 class="show-cidade">
+                  {show.data.cidade} <span class="show-estado">/ {show.data.estado}</span>
+                </h3>
+                <p class="show-local">{show.data.local}</p>
+                <p class="show-endereco">{show.data.endereco}</p>
+                <div class="show-meta">
+                  <span class="show-hora">{show.data.hora}</span>
+                  <span class="show-sep">•</span>
+                  <span class="show-coro">{show.data.coro}</span>
+                </div>
+              </div>
+
+              <div class="show-ingresso">
+                <p class="show-tipo">Ingresso {show.data.ingressoTipo}</p>
+                {show.data.ingressos ? (
+                  <a href={show.data.ingressos} class="btn btn-primary" target="_blank" rel="noopener">
+                    Reservar ingresso
+                  </a>
+                ) : (
+                  <p class="show-em-breve">Ingressos em breve</p>
+                )}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .agenda {
+    background: var(--cor-fundo-gradient-1);
+    position: relative;
+  }
+
+  .agenda-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .agenda-titulo {
+    line-height: 1;
+  }
+
+  .agenda-titulo span {
+    display: inline-block;
+  }
+
+  .agenda-titulo .italico {
+    font-style: italic;
+    color: var(--cor-acento-quente);
+    margin-left: 0.5rem;
+  }
+
+  .flourish {
+    color: var(--cor-acento);
+    margin: 1rem auto 0;
+    display: block;
+  }
+
+  .shows-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .show-card {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    background: rgba(61, 40, 24, 0.4);
+    border: 1px solid var(--cor-borda);
+    padding: 2rem;
+    transition: all var(--transicao);
+  }
+
+  .show-card:hover {
+    border-color: var(--cor-borda-forte);
+    background: rgba(61, 40, 24, 0.6);
+  }
+
+  .show-card.invertido {
+    grid-template-columns: 1fr 320px;
+  }
+
+  .show-card.invertido .show-feed {
+    order: 2;
+  }
+
+  .show-feed {
+    overflow: hidden;
+  }
+
+  .show-feed img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .show-card:hover .show-feed img {
+    transform: scale(1.02);
+  }
+
+  .show-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .show-data {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .show-dia {
+    font-family: var(--fonte-display);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--cor-acento-quente);
+    font-weight: 400;
+  }
+
+  .show-mes-ano {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .show-mes {
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    color: var(--cor-texto-suave);
+  }
+
+  .show-ano {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--cor-texto-muted);
+    margin-top: 0.25rem;
+  }
+
+  .show-cidade {
+    font-family: var(--fonte-display);
+    font-size: 2rem;
+    color: var(--cor-texto);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .show-estado {
+    color: var(--cor-texto-muted);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .show-local {
+    color: var(--cor-texto-suave);
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .show-endereco {
+    color: var(--cor-texto-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .show-meta {
+    font-size: 0.9rem;
+    color: var(--cor-acento);
+    letter-spacing: 0.05em;
+  }
+
+  .show-sep {
+    margin: 0 0.5rem;
+    opacity: 0.5;
+  }
+
+  .show-ingresso {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .show-tipo {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cor-texto-muted);
+  }
+
+  .show-em-breve {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--cor-texto-muted);
+    padding: 0.875rem 1.5rem;
+    border: 1px dashed var(--cor-borda);
+  }
+
+  @media (max-width: 860px) {
+    .show-card,
+    .show-card.invertido {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .show-card.invertido .show-feed {
+      order: 0;
+    }
+
+    .show-feed {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .show-dia {
+      font-size: 3rem;
+    }
+
+    .show-cidade {
+      font-size: 1.5rem;
+    }
+  }
+</style>

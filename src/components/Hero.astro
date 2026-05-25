@@ -135,10 +135,10 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* AJUSTE PARA ESTREITAR A IMAGEM NO MOBILE */
+  /* REGRA PARA ESTREITAR DEFINITIVAMENTE A LARGURA */
   @media (max-width: 768px) {
     .hero {
-      background-color: #1f140c; /* Cor de fundo idêntica à arte para preencher as sobras laterais */
+      background-color: #1f140c; /* Preenche as novas frestas laterais com a cor exata da arte */
     }
 
     .hero-image-desktop {
@@ -147,50 +147,62 @@ import { site } from '../data/site.js';
 
     .hero-image-mobile {
       display: block;
-      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88%;          /* ESTREITA A LARGURA: Altere este valor se quiser ainda mais magro (ex: 85%) */
       height: 100%;
-      object-fit: contain; /* Estreita a imagem para caber inteira na largura sem cortes */
+      object-fit: contain;
       object-position: center top;
     }
 
     .hero-overlay {
+      position: absolute;
+      inset: 0;
+      width: 88%;          /* Acompanha o estreitamento da imagem para o efeito degradê ficar idêntico */
+      left: 50%;
+      transform: translateX(-50%);
       background: linear-gradient(
         180deg,
         transparent 0%,
-        transparent 70%,
-        rgba(31, 20, 12, 0.95) 90%,
+        transparent 60%,
+        rgba(31, 20, 12, 0.7) 80%,
         rgba(31, 20, 12, 1) 100%
       );
+      pointer-events: none;
     }
 
     .hero-content {
       position: absolute;
-      bottom: 0;
+      bottom: 25px;        /* Deixa o conteúdo bem posicionado na base escura */
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
-      padding: 0 1.5rem 2rem 1.5rem;
-      gap: 1.25rem;
+      width: 85%;          /* Alinha o texto acompanhando a largura da imagem estreitada */
+      gap: 1.15rem;
+      padding-bottom: 0;
     }
 
     .hero-descricao {
-      font-size: 0.88rem; /* Fonte ligeiramente menor para encaixar perfeitamente */
+      font-size: 0.85rem;   /* Fonte limpa e compacta para caber tudo sem esforço */
       line-height: 1.5;
-      padding: 0;
+      padding: 0 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombra sutil para leitura perfeita sobre a foto */
     }
 
     .hero-cta {
       flex-direction: column;
       width: 100%;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .hero-cta .btn {
       width: 100%;
+      padding: 0.75rem 1rem;
     }
 
     .hero-scroll {
-      margin-top: 0.5rem;
+      display: none;       /* Desliga o scroll no mobile para limpar espaço visual */
     }
   }
 </style>

@@ -39,7 +39,7 @@ import { site } from '../data/site.js';
 <style>
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 100dvh; /* Evita quebra com barras de navegadores mobile */
     overflow: hidden;
   }
 
@@ -69,34 +69,38 @@ import { site } from '../data/site.js';
     background: linear-gradient(
       180deg,
       transparent 0%,
-      transparent 65%,
-      rgba(31, 20, 12, 0.85) 88%,
+      rgba(31, 20, 12, 0.1) 40%,  /* Sombra sutil sob o título do backdrop */
+      rgba(31, 20, 12, 0.85) 75%, /* Garante contraste para o texto dinâmico */
       rgba(31, 20, 12, 1) 100%
     );
   }
 
-  /* Conteúdo posicionado embaixo, sem encavalar com o título da imagem */
+  /* Conteúdo confinado à metade inferior da tela para proteger o título da imagem */
   .hero-content {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 720px;
+    max-width: 850px; /* Um pouco mais largo para o texto ocupar menos linhas verticais */
+    height: 100%;
+    max-height: 42dvh; /* Teto máximo: o texto nunca invade os 58% superiores da tela */
     padding-bottom: 3rem;
     text-align: center;
     z-index: 2;
+    
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* Empurra o bloco de conteúdo para a base da área protegida */
     align-items: center;
-    gap: 2rem;
+    gap: 1.75rem;
   }
 
   .hero-descricao {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: var(--cor-texto);
-    max-width: 560px;
+    max-width: 640px;
     margin: 0 auto;
   }
 
@@ -107,14 +111,94 @@ import { site } from '../data/site.js';
     justify-content: center;
   }
 
-  /* "Role para descobrir" */
   .hero-scroll {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 
   .hero-scroll span {
-    font-size:
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cor-texto-muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, var(--cor-acento), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* TELAS INTERMEDIÁRIAS: Trata notebooks menores e tablets antes de quebrar o layout */
+  @media (max-width: 1100px) {
+    .hero-content {
+      max-height: 46dvh; /* Dá um leve respiro extra para telas mais achatadas */
+      gap: 1.25rem;
+    }
+    .hero-descricao {
+      font-size: 1rem;
+      max-width: 580px;
+    }
+    .hero-scroll {
+      margin-top: 0.75rem;
+    }
+  }
+
+  /* MOBILE: usa a arte vertical (stories) */
+  @media (max-width: 768px) {
+    .hero-image-desktop {
+      display: none;
+    }
+
+    .hero-image-mobile {
+      display: block;
+      object-position: center top;
+    }
+
+    .hero-overlay {
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 50%,
+        rgba(31, 20, 12, 0.85) 75%,
+        rgba(31, 20, 12, 1) 100%
+      );
+    }
+
+    .hero-content {
+      max-height: 50dvh; /* No mobile a arte vertical costuma deixar mais espaço abaixo */
+      padding-bottom: 2rem;
+      gap: 1.25rem;
+    }
+
+    .hero-descricao {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding: 0 1rem;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+      padding: 0 1rem;
+      gap: 0.75rem;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
+    }
+
+    .hero-scroll {
+      margin-top: 0.5rem;
+    }
+  }
+</style>

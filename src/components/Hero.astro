@@ -3,109 +3,98 @@ import { site } from '../data/site.js';
 ---
 
 <section class="hero">
-  <div class="hero-bg">
-    <img
-      src="/images/backdrop.jpg"
-      alt="Misa Criolla com Jean William"
-      class="hero-image hero-image-desktop"
-      loading="eager"
-    />
-    <img
-      src="/images/backdrop-mobile.png"
-      alt="Misa Criolla com Jean William"
-      class="hero-image hero-image-mobile"
-      loading="eager"
-    />
-    <div class="hero-overlay"></div>
+  <div class="hero-proporcional-desktop">
+    <div class="container hero-content">
+      <p class="hero-descricao fade-up" style="animation-delay: 0.6s">
+        {site.descricaoCurta}
+      </p>
+
+      <div class="hero-cta fade-up" style="animation-delay: 0.9s">
+        <a href="#agenda" class="btn btn-primary">Ver agenda de shows</a>
+        <a href="#sobre" class="btn">Sobre o espetáculo</a>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Role para descobrir</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
   </div>
 
-  <div class="hero-content">
-    <p class="hero-descricao fade-up" style="animation-delay: 0.6s">
-      {site.descricaoCurta}
-    </p>
-
-    <div class="hero-cta fade-up" style="animation-delay: 0.9s">
-      <a href="#agenda" class="btn btn-primary">Ver agenda de shows</a>
-      <a href="#sobre" class="btn">Sobre o espetáculo</a>
-    </div>
-
-    <div class="hero-scroll" aria-hidden="true">
-      <span>Role para descobrir</span>
-      <div class="scroll-line"></div>
+  <div class="hero-container-mobile">
+    <div class="hero-bg-mobile"></div>
+    <div class="container hero-content-mobile">
+      <p class="hero-descricao fade-up" style="animation-delay: 0.6s">
+        {site.descricaoCurta}
+      </p>
+      <div class="hero-cta fade-up" style="animation-delay: 0.9s">
+        <a href="#agenda" class="btn btn-primary">Ver agenda de shows</a>
+        <a href="#sobre" class="btn">Sobre o espetáculo</a>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Role para descobrir</span>
+        <div class="scroll-line"></div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* A seção externa apenas segura o bloco e aceita o corte radical se a tela achatar */
   .hero {
     position: relative;
     width: 100%;
-    height: 100dvh;
+    min-height: 100dvh;
     overflow: hidden;
     background-color: rgba(31, 20, 12, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .hero-image {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+  /* ESTRUTURA DE PROPORÇÃO RÍGIDA (DESKTOP)
+     A mágica acontece aqui: a altura nasce do padding-top (proporção de cinema).
+     A imagem e o texto viram um bloco sólido monolítico. */
+  .hero-proporcional-desktop {
+    position: relative;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
+    height: 0;
+    padding-top: 56.25%; /* Isso crava a proporção exata de 16:9 do seu backdrop.jpg */
+    
+    background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.9) 85%, rgba(31, 20, 12, 1) 100%), 
+                      url('/images/backdrop.jpg');
+    background-size: cover;
+    background-position: center top;
+    
+    min-width: 100vw;
+    min-height: 100dvh;
   }
 
-  .hero-image-mobile {
-    display: none;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(31, 20, 12, 0.2) 45%,
-      rgba(31, 20, 12, 0.85) 75%,
-      rgba(31, 20, 12, 1) 100%
-    );
-  }
-
-  /* BLOCO ULTRAESTÁTICO: Centralizado horizontalmente no topo da imagem,
-     descendo usando exclusivamente 'vw'. Ele vai se mover exatamente no mesmo
-     ritmo e proporção que o título impresso na foto ("MISA CRIOLLA") */
+  /* CONTEÚDO COMPLETAMENTE CRAVADO NA BASE DA IMAGEM
+     Como o container pai se move de forma rígida, o bottom aqui nunca flutua sozinho. */
   .hero-content {
     position: absolute;
-    top: 36vw; /* Distância matemática cravada em relação ao topo da imagem */
+    bottom: 4%; /* Jogado bem para baixo para sair completamente do título Misa Criolla */
     left: 50%;
     transform: translateX(-50%);
-    
-    /* Larguras e preenchimentos baseados na largura da tela */
-    width: 60vw; 
-    max-width: 800px;
+    width: 90%;
+    max-width: 720px;
     text-align: center;
     z-index: 2;
     
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2vw; /* Distanciamento proporcional entre os blocos */
+    gap: 1.5rem;
   }
 
   .hero-descricao {
-    font-size: clamp(0.95rem, 1.15vw, 1.15rem); /* Tamanho da fonte encolhe junto com o monitor */
+    font-size: 1.05rem;
     line-height: 1.6;
     color: var(--cor-texto);
-    width: 100%;
     max-width: 560px;
     margin: 0 auto;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Proteção extra de leitura */
   }
 
   .hero-cta {
@@ -120,7 +109,7 @@ import { site } from '../data/site.js';
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 1.5vw;
+    margin-top: 0.5rem;
   }
 
   .hero-scroll span {
@@ -142,24 +131,70 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* MOBILE: Retorna para o fluxo isolado vertical do celular */
+  /* Desliga o container mobile por padrão no desktop */
+  .hero-container-mobile {
+    display: none;
+  }
+
+  /* ==========================================
+     LAYOUT MOBILE (Isolado e focado na vertical)
+     ========================================== */
   @media (max-width: 768px) {
-    .hero-image-desktop {
+    /* Desliga a estrutura rígida de desktop no celular */
+    .hero-proporcional-desktop {
       display: none;
     }
 
-    .hero-image-mobile {
-      display: block;
-      object-fit: cover;
-      object-position: center top;
-    }
-
-    .hero-content {
-      top: auto;
-      bottom: 0;
+    .hero-container-mobile {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       width: 100%;
       height: 100dvh;
+      position: relative;
+    }
+
+    .hero-bg-mobile {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(180deg, transparent 50%, rgba(31, 20, 12, 0.9) 80%, rgba(31, 20, 12, 1) 100%), 
+                        url('/images/backdrop-mobile.png');
+      background-size: cover;
+      background-position: center top;
+      z-index: 0;
+    }
+
+    .hero-content-mobile {
+      position: relative;
+      z-index: 2;
+      width: 100%;
       max-height: 48dvh;
-      justify-content: flex-end;
       padding-bottom: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
       gap: 1.25rem;
+    }
+
+    .hero-descricao {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding: 0 1.5rem;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+      padding: 0 1.5rem;
+      gap: 0.75rem;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
+    }
+
+    .hero-scroll {
+      margin-top: 0.5rem;
+    }
+  }
+</style>

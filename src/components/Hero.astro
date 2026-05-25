@@ -107,8 +107,7 @@ import { site } from '../data/site.js';
     justify-content: center;
   }
 
-  /* "Role para descobrir" agora vive DENTRO do hero-content,
-     com espaço próprio (gap do container pai dá respiro) */
+  /* "Role para descobrir" */
   .hero-scroll {
     display: flex;
     flex-direction: column;
@@ -132,4 +131,77 @@ import { site } from '../data/site.js';
   }
 
   @keyframes scrollPulse {
-    0%, 100%
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* MOBILE: Quebra o posicionamento absoluto para evitar conflito com a imagem */
+  @media (max-width: 768px) {
+    .hero {
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+      background: rgba(31, 20, 12, 1); /* Garante o fundo institucional escuro na quebra */
+    }
+
+    .hero-bg {
+      position: relative; /* Transforma o banner em um bloco estático no topo */
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16; /* Força a imagem a manter a proporção exata de Story */
+    }
+
+    .hero-image-desktop {
+      display: none;
+    }
+
+    .hero-image-mobile {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      /* Gradiente suave apenas para suavizar a transição com a seção de baixo */
+      background: linear-gradient(
+        180deg,
+        transparent 80%,
+        rgba(31, 20, 12, 1) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative; /* Remove a flutuação absoluta */
+      bottom: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      padding: 3rem 1.5rem; /* Respiro generoso em cima e embaixo do texto */
+      gap: 1.5rem;
+      background: rgba(31, 20, 12, 1);
+    }
+
+    .hero-descricao {
+      font-size: 0.95rem; /* Tamanho confortável para leitura */
+      line-height: 1.6;
+      padding: 0;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+      padding: 0;
+      gap: 0.75rem;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
+    }
+
+    .hero-scroll {
+      margin-top: 1.5rem;
+    }
+  }
+</style>

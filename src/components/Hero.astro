@@ -135,10 +135,10 @@ import { site } from '../data/site.js';
     50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* REGRA PARA ESTREITAR DEFINITIVAMENTE A LARGURA */
+  /* REGRA DO MOBILE COM POSICIONAMENTO NO ESPAÇO VAZIO */
   @media (max-width: 768px) {
     .hero {
-      background-color: #1f140c; /* Preenche as novas frestas laterais com a cor exata da arte */
+      background-color: #1f140c;
     }
 
     .hero-image-desktop {
@@ -151,7 +151,7 @@ import { site } from '../data/site.js';
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 88%;          /* ESTREITA A LARGURA: Altere este valor se quiser ainda mais magro (ex: 85%) */
+      width: 88%;
       height: 100%;
       object-fit: contain;
       object-position: center top;
@@ -160,7 +160,7 @@ import { site } from '../data/site.js';
     .hero-overlay {
       position: absolute;
       inset: 0;
-      width: 88%;          /* Acompanha o estreitamento da imagem para o efeito degradê ficar idêntico */
+      width: 88%;
       left: 50%;
       transform: translateX(-50%);
       background: linear-gradient(
@@ -175,19 +175,20 @@ import { site } from '../data/site.js';
 
     .hero-content {
       position: absolute;
-      bottom: 25px;        /* Deixa o conteúdo bem posicionado na base escura */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 85%;          /* Alinha o texto acompanhando a largura da imagem estreitada */
-      gap: 1.15rem;
+      bottom: auto;
+      top: 38%;            /* Subiu o bloco para se posicionar no vão livre da imagem */
+      transform: translate(-50%, -50%);
+      width: 85%;
+      padding-top: 2rem;   /* Adiciona o padding extra em cima para dar respiro */
+      gap: 1.25rem;
       padding-bottom: 0;
     }
 
     .hero-descricao {
-      font-size: 0.85rem;   /* Fonte limpa e compacta para caber tudo sem esforço */
+      font-size: 0.85rem;
       line-height: 1.5;
       padding: 0 0.5rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Sombra sutil para leitura perfeita sobre a foto */
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9); /* Garante leitura perfeita no fundo escuro */
     }
 
     .hero-cta {
@@ -202,7 +203,7 @@ import { site } from '../data/site.js';
     }
 
     .hero-scroll {
-      display: none;       /* Desliga o scroll no mobile para limpar espaço visual */
+      display: none;
     }
   }
 </style>

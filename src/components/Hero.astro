@@ -4,14 +4,12 @@ import { site } from '../data/site.js';
 
 <section class="hero">
   <div class="hero-bg">
-    <!-- Desktop: backdrop horizontal -->
     <img
       src="/images/backdrop.jpg"
       alt="Misa Criolla com Jean William"
       class="hero-image hero-image-desktop"
       loading="eager"
     />
-    <!-- Mobile: arte vertical (stories) -->
     <img
       src="/images/backdrop-mobile.png"
       alt="Misa Criolla com Jean William"
@@ -146,7 +144,14 @@ import { site } from '../data/site.js';
 
     .hero-image-mobile {
       display: block;
-      object-position: center top;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      object-fit: contain;
     }
 
     .hero-overlay {

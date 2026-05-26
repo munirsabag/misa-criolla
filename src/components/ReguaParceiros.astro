@@ -1,0 +1,33 @@
+---
+// Régua de parceiros: imagem única full-width usada como
+// separador entre seções (substitui a antiga barra construída
+// em código pra essa posição). Imagem fica idêntica em qualquer
+// largura de tela — só redimensiona proporcionalmente.
+---
+
+<section class="regua-parceiros" aria-label="Parceiros do projeto">
+  <img
+    src="/images/regua-parceiros.png"
+    alt="Parceiros: Lei Rouanet, Produção Ampliart, Patrocínio Usina Santo Ângelo, Apoio Dama Infra e Voccalia, Realização Ministério da Cultura — Governo do Brasil"
+    class="regua-img"
+    loading="lazy"
+  />
+</section>
+
+<style>
+  .regua-parceiros {
+    background: #ffffff;
+    width: 100%;
+    padding: 1.5rem clamp(1rem, 4vw, 3rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .regua-img {
+    display: block;
+    width: 100%;
+    max-width: 1600px;
+    height: auto;
+  }
+</style>

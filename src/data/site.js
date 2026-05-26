@@ -64,7 +64,7 @@ export const fichaTecnica = [
     foto: '/images/ficha/madrigal.png',
     fotoHorizontal: true,
     funcao: 'Coro convidado — Belo Horizonte',
-    bio: 'Fundado em Belo Horizonte em 1956, o Madrigal Renascentista é um tradicional grupo coral brasileiro, pioneiro na difusãoo da música renascentista e da música coral a cappella no país. Ao longo de sua trajetória, realizou turnês internacionais, gravou importantes discos dedicados à música brasileira e tornou-se patrimônio cultural de Belo Horizonte, consolidando-se como referência histórica da música coral brasileira. Atualmente é dirigido pelo maestro Sergio Borborema.',
+    bio: 'Fundado em Belo Horizonte em 1956, o Madrigal Renascentista é um tradicional grupo coral brasileiro, pioneiro na difusão da música renascentista e da música coral a cappella no país. Ao longo de sua trajetória, realizou turnês internacionais, gravou importantes discos dedicados à música brasileira e tornou-se patrimônio cultural de Belo Horizonte, consolidando-se como referência histórica da música coral brasileira. Atualmente é dirigido pelo maestro Sergio Borborema.',
   },
 ];
 

@@ -57,16 +57,14 @@ export const fichaTecnica = [
     foto: '/images/ficha/tarancon.jpg',
     fotoHorizontal: true,
     funcao: 'Participação especial',
-    bio: 'Grupo brasileiro criado em 1972, pioneiro na divulgação da música latino-americana no Brasil. Sua sonoridade combina ritmos andinos, brasileiros e caribenhos, utilizando instrumentos tradicionais como quena, zampoña, charango e bombo leguero.
-Ao longo da carreira, o Tarancón dividiu espetáculos com artistas como Mercedes Sosa, Milton Nascimento, Chico Buarque e MPB4, consolidando-se como uma das principais referências da música latino-americana no país.',
+    bio: 'Grupo brasileiro criado em 1972, pioneiro na divulgação da música latino-americana no Brasil. Sua sonoridade combina ritmos andinos, brasileiros e caribenhos, utilizando instrumentos tradicionais como quena, zampoña, charango e bombo leguero. Ao longo da carreira, o Tarancón dividiu espetáculos com artistas como Mercedes Sosa, Milton Nascimento, Chico Buarque e MPB4, consolidando-se como uma das principais referências da música latino-americana no país.',
   },
   {
     nome: 'Madrigal Renascentista',
     foto: '/images/ficha/madrigal.png',
     fotoHorizontal: true,
     funcao: 'Coro convidado — Belo Horizonte',
-    bio: 'Fundado em Belo Horizonte em 1956, o Madrigal Renascentista é um dos mais importantes grupos corais do Brasil. Pioneiro na pesquisa e difusão da música renascentista e da música coral a cappella no país, teve entre seus primeiros regentes o maestro Isaac Karabtchevsky.
-Ao longo de sua trajetória, realizou turnês internacionais, gravou importantes discos dedicados à música brasileira e tornou-se patrimônio cultural de Belo Horizonte, consolidando-se como referência histórica da música coral brasileira. Atualmente é dirigido pelo maestro Sergio Borborema',
+    bio: 'Fundado em Belo Horizonte em 1956, o Madrigal Renascentista é um dos mais importantes grupos corais do Brasil. Pioneiro na pesquisa e difusão da música renascentista e da música coral a cappella no país, teve entre seus primeiros regentes o maestro Isaac Karabtchevsky. Ao longo de sua trajetória, realizou turnês internacionais, gravou importantes discos dedicados à música brasileira e tornou-se patrimônio cultural de Belo Horizonte, consolidando-se como referência histórica da música coral brasileira. Atualmente é dirigido pelo maestro Sergio Borborema.',
   },
 ];
 

@@ -55,12 +55,14 @@ export const fichaTecnica = [
   {
     nome: 'Grupo Tarancón',
     foto: '/images/ficha/tarancon.jpg',
+    fotoHorizontal: true,
     funcao: 'Participação especial',
     bio: 'De São Paulo, referência na pesquisa e difusão da música latino-americana.',
   },
   {
     nome: 'Madrigal Renascentista',
     foto: '/images/ficha/madrigal.png',
+    fotoHorizontal: true,
     funcao: 'Coro convidado — Belo Horizonte',
     bio: 'Coro de Belo Horizonte sob regência de Sergio Borborema.',
   },

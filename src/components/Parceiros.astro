@@ -20,6 +20,7 @@
           stroke-linecap="round"
         />
       </svg>
+      <p class="parceiros-convite">Clique nos logos para conhecer nossos parceiros</p>
     </div>
   </div>
 
@@ -102,6 +103,15 @@
     display: block;
   }
 
+  /* Frase de convite abaixo do título */
+  .parceiros-convite {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
   /* ============================================
      VERSÃO DESKTOP — IMAGEM + HOTSPOTS CLICÁVEIS
      ============================================ */
@@ -124,21 +134,15 @@
 
   /* Cada hotspot é um <a> transparente posicionado sobre o logo na imagem.
      Ocupa toda a altura útil da faixa pra capturar o clique sem precisar
-     de precisão milimétrica do usuário. */
+     de precisão milimétrica do usuário. Totalmente invisível —
+     o cursor "mãozinha" já indica que é clicável. */
   .hotspot {
     position: absolute;
     top: 15%;
     height: 70%;
     background: transparent;
     z-index: 2;
-    transition: background-color 0.2s ease;
     cursor: pointer;
-    border-radius: 4px;
-  }
-
-  /* Feedback visual sutil ao passar o mouse: leve highlight bege */
-  .hotspot:hover {
-    background: rgba(196, 167, 121, 0.12);
   }
 
   /* No mobile, esconde a imagem desktop e os hotspots */

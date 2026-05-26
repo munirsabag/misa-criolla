@@ -44,7 +44,7 @@ export const fichaTecnica = [
     nome: 'Munir Sabag',
     foto: '/images/ficha/munir-sabag.png',
     funcao: 'Arranjos corais',
-    bio: 'Doutor em Artes (Processos de Criação Musical) e licenciado em Música pela ECA-USP, onde pesquisa música vocal do Renascimento. É também doutor em Física pela USP. Regente do Coral Physicantus (IF-USP), do Grupo Vozes (UNIVAR Brasil) e do Coral do Ilha.',
+    bio: 'Doutor em Artes (Processos de Criação Musical) e licenciado em Música pela ECA-USP, onde pesquisa música vocal do Renascimento. É também doutor em Física pelo Instituto de Física da USP. Atualmente dirige o Coral Physicantus (IF-USP), o coro global Together We Sing (Univar Solutions), o Coral do Ilha (Condomínio Ilha do Sul) e o Madrigal LivrEncanto.',
   },
   {
     nome: 'Sandra Mimoto Torres',

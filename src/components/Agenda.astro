@@ -1,10 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
-
 const shows = await getCollection('agenda');
-const showsOrdenados = shows.sort((a, b) =>
-  a.data.data.getTime() - b.data.data.getTime()
-);
+
+// Ordena por data; quando duas entradas têm a mesma data,
+// workshops vêm antes dos shows (o workshop é pré-show no mesmo dia).
+const showsOrdenados = shows.sort((a, b) => {
+  const diff = a.data.data.getTime() - b.data.data.getTime();
+  if (diff !== 0) return diff;
+  // Mesmo dia: workshop antes do show
+  const tipoA = a.data.tipo || 'show';
+  const tipoB = b.data.tipo || 'show';
+  if (tipoA === 'workshop' && tipoB === 'show') return -1;
+  if (tipoA === 'show' && tipoB === 'workshop') return 1;
+  return 0;
+});
 
 const meses = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
 
@@ -42,15 +51,19 @@ function formatarData(data) {
       {showsOrdenados.map((show, index) => {
         const dataFormatada = formatarData(show.data.data);
         const ehImpar = index % 2 === 1;
+        const ehWorkshop = (show.data.tipo || 'show') === 'workshop';
+        const tipoClass = ehWorkshop ? 'show-card-workshop' : '';
         return (
-          <article class={`show-card ${ehImpar ? 'invertido' : ''}`}>
+          <article class={`show-card ${ehImpar ? 'invertido' : ''} ${tipoClass}`}>
             {show.data.feed && (
               <div class="show-feed">
                 <img src={show.data.feed} alt={`Arte de divulgação - ${show.data.cidade}`} loading="lazy" />
               </div>
             )}
-
             <div class="show-info-wrapper">
+              <span class={`show-tipo-tag ${ehWorkshop ? 'tag-workshop' : 'tag-show'}`}>
+                {ehWorkshop ? 'Workshop' : 'Concerto'}
+              </span>
               <div class="show-data">
                 <span class="show-dia">{dataFormatada.dia}</span>
                 <div class="show-mes-ano">
@@ -58,7 +71,6 @@ function formatarData(data) {
                   <span class="show-ano">{dataFormatada.ano}</span>
                 </div>
               </div>
-
               <div class="show-info">
                 <h3 class="show-cidade">
                   {show.data.cidade} <span class="show-estado">/ {show.data.estado}</span>
@@ -68,10 +80,12 @@ function formatarData(data) {
                 <div class="show-meta">
                   <span class="show-hora">{show.data.hora}</span>
                   <span class="show-sep">•</span>
-                  <span class="show-coro">{show.data.coro}</span>
+                  <span class="show-coro">
+                    {ehWorkshop ? <span class="show-rotulo">Com: </span> : null}
+                    {show.data.coro}
+                  </span>
                 </div>
               </div>
-
               <div class="show-ingresso">
                 <p class="show-tipo">Ingresso {show.data.ingressoTipo}</p>
                 {show.data.mostrarIngresso !== false && (
@@ -147,6 +161,11 @@ function formatarData(data) {
     background: rgba(61, 40, 24, 0.6);
   }
 
+  /* Workshop: borda esquerda colorida pra diferenciar discretamente */
+  .show-card.show-card-workshop {
+    border-left: 3px solid var(--cor-acento-quente);
+  }
+
   .show-card.invertido {
     grid-template-columns: 1fr 320px;
   }
@@ -174,6 +193,30 @@ function formatarData(data) {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  /* Tag de tipo (Concerto / Workshop) no topo do card */
+  .show-tipo-tag {
+    align-self: flex-start;
+    font-family: var(--fonte-texto);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .tag-show {
+    background: rgba(200, 153, 104, 0.15);
+    color: var(--cor-acento);
+    border: 1px solid rgba(200, 153, 104, 0.3);
+  }
+
+  .tag-workshop {
+    background: rgba(150, 100, 60, 0.2);
+    color: var(--cor-acento-quente);
+    border: 1px solid rgba(150, 100, 60, 0.4);
   }
 
   .show-data {
@@ -240,6 +283,11 @@ function formatarData(data) {
     font-size: 0.9rem;
     color: var(--cor-acento);
     letter-spacing: 0.05em;
+  }
+
+  .show-rotulo {
+    color: var(--cor-texto-muted);
+    font-style: italic;
   }
 
   .show-sep {

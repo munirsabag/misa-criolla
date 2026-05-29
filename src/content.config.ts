@@ -16,6 +16,7 @@ const agenda = defineCollection({
     mostrarIngresso: z.boolean().default(true),
     feed: z.string().optional(),
     ordem: z.number().default(0),
+    tipo: z.enum(['show', 'workshop']).default('show'),
   }),
 });
 

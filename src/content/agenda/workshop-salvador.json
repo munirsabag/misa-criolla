@@ -1,0 +1,15 @@
+{
+  "cidade": "Salvador",
+  "estado": "BA",
+  "data": "2026-06-09",
+  "hora": "18h00",
+  "local": "Espaço Paroquial da Igreja N. Sra. do Rosário dos Pretos",
+  "endereco": "Largo do Pelourinho, s/n",
+  "coro": "Munir Sabag",
+  "ingressos": "",
+  "ingressoTipo": "Gratuito",
+  "mostrarIngresso": false,
+  "feed": "/images/agenda/workshop-salvador.png",
+  "ordem": 1,
+  "tipo": "workshop"
+}

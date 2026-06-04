@@ -6,9 +6,9 @@
   "local": "Espaço Paroquial da Igreja N. Sra. do Rosário dos Pretos",
   "endereco": "Largo do Pelourinho, s/n",
   "coro": "Munir Sabag",
-  "ingressos": "",
+  "ingressos": "https://docs.google.com/forms/d/e/1FAIpQLSd1MowyoRFHstp8zB4CBo6iO4n5aUb1T7ox604xq6G84QxLIA/viewform",
   "ingressoTipo": "Gratuito",
-  "mostrarIngresso": false,
+  "mostrarIngresso": true,
   "feed": "/images/agenda/workshop-salvador.png",
   "ordem": 1,
   "tipo": "workshop"

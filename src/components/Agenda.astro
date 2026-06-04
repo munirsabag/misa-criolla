@@ -91,10 +91,10 @@ function formatarData(data) {
                 {show.data.mostrarIngresso !== false && (
                   show.data.ingressos ? (
                     <a href={show.data.ingressos} class="btn btn-primary" target="_blank" rel="noopener">
-                      Reservar ingresso
+                      {ehWorkshop ? 'Inscreva-se gratuitamente' : 'Reservar ingresso'}
                     </a>
                   ) : (
-                    <p class="show-em-breve">Ingressos em breve</p>
+                    <p class="show-em-breve">{ehWorkshop ? 'Inscrições em breve' : 'Ingressos em breve'}</p>
                   )
                 )}
               </div>

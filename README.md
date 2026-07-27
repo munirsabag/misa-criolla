@@ -54,9 +54,35 @@ Os shows aparecem ordenados por data automaticamente.
 ### 3. Imagens — `public/images/`
 
 - **`jean-william.jpg`** — foto principal da home (use a foto em alta resolução que aparece nas peças, recortada em retrato)
-- **`galeria/foto-01.jpg` até `foto-06.jpg`** — fotos da galeria
+- **`galeria/`** — fotos da galeria, uma pasta por evento (veja abaixo)
 - **`logos/`** — logos dos parceiros (PNG com fundo transparente é o ideal)
 - **`og-image.jpg`** — imagem que aparece quando o site é compartilhado em redes sociais (1200x630px)
+
+### 4. Galeria — `public/images/galeria/`
+
+A galeria tem um carrossel por evento. Cada carrossel lê uma pasta:
+
+```
+public/images/galeria/
+├── bh/                  ← Belo Horizonte (o vídeo do YouTube é sempre o 1º slide)
+├── concerto-salvador/   ← Concerto em Salvador
+└── workshop-salvador/   ← Workshop em Salvador
+```
+
+**Pra adicionar fotos:** jogue os arquivos na pasta do evento, nomeados
+`foto-01.jpg`, `foto-02.jpg`, `foto-03.jpg`... nessa ordem de exibição.
+O carrossel lê a pasta sozinho — não precisa mexer em código nenhum.
+
+Se uma pasta estiver vazia ou não existir, o carrossel daquele evento
+simplesmente não aparece (o de BH continua aparecendo por causa do vídeo).
+
+**Antes de subir, redimensione as fotos** para no máximo 1800px no lado maior,
+qualidade ~80%. Fotos direto da câmera (5–10 MB cada) deixam o site lento.
+
+**Pra criar um evento novo** (ex: Rio de Janeiro): crie a pasta
+`public/images/galeria/rio/`, coloque as fotos, e adicione o bloco
+correspondente na lista `eventos` no topo de `src/components/Galeria.astro`
+— é só copiar um dos blocos existentes e trocar o nome.
 
 ## Estrutura
 

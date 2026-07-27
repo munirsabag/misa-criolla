@@ -1,6 +1,66 @@
 ---
-// Galeria — quando os concertos acontecerem, troque o conteúdo abaixo
-// pelas fotos reais (veja README.md pra instruções)
+// Galeria — um bloco por evento, cada um com seu carrossel de fotos.
+//
+// COMO ADICIONAR FOTOS:
+// Basta jogar os arquivos em public/images/galeria/<pasta-do-evento>/
+// nomeados foto-01.jpg, foto-02.jpg, foto-03.jpg... (nessa ordem de exibição).
+// O carrossel lê a pasta sozinho — não precisa mexer em código nenhum.
+//
+// Formatos aceitos: .jpg .jpeg .png .webp .avif
+// Se a pasta não existir ou estiver vazia, o evento não aparece
+// (a não ser que ele tenha vídeo — aí o vídeo aparece sozinho).
+
+import fs from "node:fs";
+import path from "node:path";
+
+const EXTENSOES = [".jpg", ".jpeg", ".png", ".webp", ".avif"];
+
+function fotos(pasta, alt) {
+  const dir = path.join(process.cwd(), "public", "images", "galeria", pasta);
+  let arquivos = [];
+  try {
+    arquivos = fs
+      .readdirSync(dir)
+      .filter((f) => EXTENSOES.includes(path.extname(f).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true }));
+  } catch {
+    return [];
+  }
+  return arquivos.map((arquivo, i) => ({
+    src: `/images/galeria/${pasta}/${arquivo}`,
+    alt: `${alt} — foto ${i + 1} de ${arquivos.length}`,
+  }));
+}
+
+const eventos = [
+  {
+    id: "bh",
+    titulo: "Belo Horizonte",
+    local: "Centro Cultural SESIMINAS · 31 de maio de 2026",
+    video: {
+      youtubeId: "_tJvRMrBz_k",
+      chamada: "assista ao compacto",
+      // Capa do vídeo. Usamos uma foto nossa em vez da miniatura do YouTube
+      // porque a do YouTube vem com o nome da música escrito por cima.
+      // Pra trocar, é só apontar pra outra foto da pasta.
+      capa: "/images/galeria/bh/foto-03.jpg",
+      alt: "Compacto em vídeo do concerto Misa Criolla em Belo Horizonte",
+    },
+    fotos: fotos("bh", "Concerto Misa Criolla em Belo Horizonte"),
+  },
+  {
+    id: "concerto-salvador",
+    titulo: "Salvador",
+    local: "Igreja de N. S. do Rosário dos Pretos · Pelourinho · 09 de junho de 2026",
+    fotos: fotos("concerto-salvador", "Concerto Misa Criolla em Salvador"),
+  },
+  {
+    id: "workshop-salvador",
+    titulo: "Workshop: Música Coral Latino-Americana com Munir Sabag",
+    local: "Igreja de N. S. do Rosário dos Pretos · Pelourinho · 09 de junho de 2026",
+    fotos: fotos("workshop-salvador", "Workshop de Música Coral Latino-Americana em Salvador"),
+  },
+].filter((evento) => evento.video || evento.fotos.length > 0);
 ---
 
 <section id="galeria" class="galeria">
@@ -21,17 +81,87 @@
       </svg>
     </div>
 
-    <div class="em-breve">
-      <svg class="em-breve-icone" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="30" cy="30" r="28" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
-        <path d="M30 14 L30 30 L40 36" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-      </svg>
-      <h3 class="em-breve-titulo">em breve</h3>
-      <p class="em-breve-texto">
-        Os registros fotográficos do espetáculo estarão disponíveis aqui após o primeiro concerto,
-        em <strong>31 de maio de 2026</strong>, no Centro Cultural SESIMINAS, em Belo Horizonte.
-      </p>
-    </div>
+    {eventos.map((evento) => (
+      <article class="evento">
+        <header class="evento-header">
+          <h3 class="evento-titulo">{evento.titulo}</h3>
+          {evento.local && <p class="evento-local">{evento.local}</p>}
+        </header>
+
+        {evento.video && (
+          <div
+            class="video-facade"
+            data-video
+            data-youtube-id={evento.video.youtubeId}
+            role="button"
+            tabindex="0"
+            aria-label={`${evento.video.chamada} — ${evento.titulo}`}
+          >
+            <img
+              class="video-thumb"
+              src={evento.video.capa}
+              alt={evento.video.alt}
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="video-play" aria-hidden="true">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  class="video-play-fundo"
+                  d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8 0 34 0 34 0S12.2 0 6.9 1.5C4 2.3 2.3 4.8 1.5 7.7 0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2C12.2 48 34 48 34 48s21.8 0 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z"
+                />
+                <path class="video-play-seta" d="M45 24 27 14v20z" />
+              </svg>
+              <span class="video-chamada">{evento.video.chamada}</span>
+            </span>
+          </div>
+        )}
+
+        {evento.fotos.length > 0 && (
+          <div
+            class="carrossel"
+            data-carrossel
+            role="group"
+            aria-roledescription="carrossel"
+            aria-label={`Fotos: ${evento.titulo}`}
+          >
+            <div class="carrossel-palco">
+              <div class="carrossel-trilho" data-trilho>
+                {/* a lista sai duas vezes: é o que faz o loop nunca ter emenda.
+                    a segunda cópia é invisível pra leitores de tela. */}
+                {evento.fotos.map((foto, i) => (
+                  <div class="slide" data-slide>
+                    <img
+                      class="slide-img"
+                      src={foto.src}
+                      alt={foto.alt}
+                      loading={i < 4 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+                {evento.fotos.map((foto) => (
+                  <div class="slide" data-clone aria-hidden="true">
+                    <img class="slide-img" src={foto.src} alt="" loading="lazy" decoding="async" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button class="seta seta-anterior" data-anterior type="button" aria-label="Fotos anteriores">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button class="seta seta-proximo" data-proximo type="button" aria-label="Próximas fotos">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </article>
+    ))}
   </div>
 </section>
 
@@ -57,39 +187,428 @@
     display: block;
   }
 
-  .em-breve {
-    max-width: 600px;
-    margin: 0 auto;
+  /* ---- evento ---- */
+
+  .evento + .evento {
+    margin-top: 5rem;
+  }
+
+  .evento-header {
     text-align: center;
-    padding: 4rem 2rem;
-    border: 1px solid var(--cor-borda);
-    background: rgba(61, 40, 24, 0.3);
+    margin-bottom: 1.75rem;
   }
 
-  .em-breve-icone {
-    width: 60px;
-    height: 60px;
-    color: var(--cor-acento);
-    margin-bottom: 1.5rem;
-  }
-
-  .em-breve-titulo {
+  .evento-titulo {
     font-family: var(--fonte-display);
-    font-size: 2.5rem;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
     font-style: italic;
-    color: var(--cor-acento-quente);
-    margin-bottom: 1.5rem;
     font-weight: 400;
+    color: var(--cor-acento-quente);
+    margin: 0;
   }
 
-  .em-breve-texto {
+  .evento-local {
+    margin: 0.5rem 0 0;
     color: var(--cor-texto-suave);
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
   }
 
-  .em-breve-texto strong {
+  /* ---- vídeo (bloco próprio, acima das fotos) ---- */
+
+  .video-facade {
+    position: relative;
+    display: block;
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
+    background: #000;
+    border: 1px solid var(--cor-borda);
+    overflow: hidden;
+  }
+
+  .video-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.8;
+    transition: opacity 0.4s ease, transform 0.6s ease;
+  }
+
+  .video-facade:hover .video-thumb,
+  .video-facade:focus-visible .video-thumb {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  .video-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45));
+  }
+
+  .video-play svg {
+    width: 68px;
+    height: 48px;
+  }
+
+  .video-play-fundo {
+    fill: rgba(0, 0, 0, 0.55);
+    transition: fill 0.3s ease;
+  }
+
+  .video-play-seta {
+    fill: #fff;
+  }
+
+  .video-facade:hover .video-play-fundo,
+  .video-facade:focus-visible .video-play-fundo {
+    fill: var(--cor-acento-quente);
+  }
+
+  .video-chamada {
+    font-family: var(--fonte-display);
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    padding-bottom: 0.15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .video-facade:hover .video-chamada,
+  .video-facade:focus-visible .video-chamada {
+    color: var(--cor-acento-quente);
+    border-bottom-color: var(--cor-acento-quente);
+  }
+
+  .video-facade iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* ---- carrossel de fotos (4 por vez, movimento contínuo) ---- */
+
+  .carrossel {
+    /* quantas fotos aparecem ao mesmo tempo — o JS lê este valor */
+    --visiveis: 4;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3.25rem;
+  }
+
+  .carrossel-palco {
+    overflow: hidden;
+  }
+
+  .carrossel-trilho {
+    display: flex;
+    will-change: transform;
+  }
+
+  .slide {
+    flex: 0 0 calc(100% / var(--visiveis));
+    padding: 0 0.4rem;
+    box-sizing: border-box;
+  }
+
+  .slide-img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--cor-borda);
+    background: rgba(0, 0, 0, 0.35);
+    transition: opacity 0.3s ease;
+  }
+
+  .slide-img:hover {
+    opacity: 0.85;
+  }
+
+  /* ---- setas ---- */
+
+  .seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 12, 6, 0.72);
+    border: 1px solid var(--cor-borda);
     color: var(--cor-texto);
-    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease;
+    z-index: 2;
+  }
+
+  .seta svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .seta:hover,
+  .seta:focus-visible {
+    background: var(--cor-acento-quente);
+    color: #fff;
+  }
+
+  .seta[hidden] {
+    display: none;
+  }
+
+  .seta-anterior {
+    left: 0;
+  }
+
+  .seta-proximo {
+    right: 0;
+  }
+
+  /* ---- responsivo: menos fotos por vez em telas menores ---- */
+
+  @media (max-width: 900px) {
+    .carrossel {
+      --visiveis: 3;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .carrossel {
+      --visiveis: 2;
+      padding: 0 2.5rem;
+    }
+
+    .seta {
+      width: 34px;
+      height: 34px;
+    }
+
+    .evento + .evento {
+      margin-top: 3.5rem;
+    }
+
+    .video-facade {
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .carrossel {
+      --visiveis: 1;
+    }
   }
 </style>
+
+<script>
+  // ⏱ quanto tempo uma foto leva pra atravessar a própria largura.
+  // Número maior = movimento mais lento e calmo. Menor = mais rápido.
+  const SEGUNDOS_POR_FOTO = 3;
+
+  const semAnimacao = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll("[data-carrossel]").forEach((carrossel) => {
+    const trilho = carrossel.querySelector("[data-trilho]");
+    const palco = carrossel.querySelector(".carrossel-palco");
+    const anterior = carrossel.querySelector("[data-anterior]");
+    const proximo = carrossel.querySelector("[data-proximo]");
+    const total = carrossel.querySelectorAll("[data-slide]").length;
+
+    let visiveis = 4;
+    let larguraFoto = 0;
+    let larguraVolta = 0; // largura de uma passada completa pela lista
+    let deslocamento = 0; // posição atual, em pixels
+    let empurrao = 0; // pixels pedidos pelas setas, consumidos aos poucos
+    let rodando = false;
+    let quadro = null;
+    let ultimoInstante = 0;
+
+    const medir = () => {
+      const valor = parseInt(getComputedStyle(carrossel).getPropertyValue("--visiveis"), 10);
+      visiveis = Number.isNaN(valor) ? 1 : valor;
+      larguraFoto = palco.clientWidth / visiveis;
+      larguraVolta = larguraFoto * total;
+      // com poucas fotos não há o que rolar
+      const cabeTudo = total <= visiveis;
+      anterior.hidden = cabeTudo;
+      proximo.hidden = cabeTudo;
+      return !cabeTudo;
+    };
+
+    const desenhar = () => {
+      // mantém a posição sempre dentro da primeira cópia da lista;
+      // como a segunda cópia é idêntica, a emenda é invisível
+      deslocamento = ((deslocamento % larguraVolta) + larguraVolta) % larguraVolta;
+      trilho.style.transform = `translate3d(${-deslocamento}px, 0, 0)`;
+    };
+
+    const passo = (instante) => {
+      if (!rodando) return;
+      const decorrido = instante - (ultimoInstante || instante);
+      ultimoInstante = instante;
+
+      // avanço constante do movimento de fundo
+      const velocidade = larguraFoto / (SEGUNDOS_POR_FOTO * 1000); // px por ms
+      deslocamento += velocidade * Math.min(decorrido, 100);
+
+      // as setas entram como um empurrão que vai sendo absorvido,
+      // pra chegada ser suave em vez de um pulo
+      if (empurrao !== 0) {
+        const fatia = empurrao * 0.12;
+        deslocamento += fatia;
+        empurrao -= fatia;
+        if (Math.abs(empurrao) < 0.5) empurrao = 0;
+      }
+
+      desenhar();
+      quadro = requestAnimationFrame(passo);
+    };
+
+    const tocar = () => {
+      if (rodando || semAnimacao || total <= visiveis) return;
+      rodando = true;
+      ultimoInstante = 0;
+      quadro = requestAnimationFrame(passo);
+    };
+
+    const pausar = () => {
+      rodando = false;
+      if (quadro) cancelAnimationFrame(quadro);
+      quadro = null;
+    };
+
+    // as setas dão um empurrão de uma foto pra frente ou pra trás
+    const empurrar = (direcao) => {
+      empurrao += direcao * larguraFoto;
+      if (!rodando) {
+        // se estiver parado (mouse em cima), anima só o empurrão
+        const consumir = () => {
+          if (Math.abs(empurrao) < 0.5) {
+            empurrao = 0;
+            return;
+          }
+          const fatia = empurrao * 0.15;
+          deslocamento += fatia;
+          empurrao -= fatia;
+          desenhar();
+          requestAnimationFrame(consumir);
+        };
+        requestAnimationFrame(consumir);
+      }
+    };
+
+    anterior.addEventListener("click", () => empurrar(-1));
+    proximo.addEventListener("click", () => empurrar(1));
+
+    carrossel.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      empurrar(e.key === "ArrowRight" ? 1 : -1);
+    });
+
+    // pausa com o mouse em cima, pra dar pra olhar uma foto com calma
+    carrossel.addEventListener("mouseenter", pausar);
+    carrossel.addEventListener("mouseleave", tocar);
+    carrossel.addEventListener("focusin", pausar);
+    carrossel.addEventListener("focusout", tocar);
+
+    // arrastar com o dedo
+    let inicioX = null;
+    let deslocamentoInicial = 0;
+    carrossel.addEventListener(
+      "touchstart",
+      (e) => {
+        pausar();
+        inicioX = e.touches[0].clientX;
+        deslocamentoInicial = deslocamento;
+      },
+      { passive: true }
+    );
+    carrossel.addEventListener(
+      "touchmove",
+      (e) => {
+        if (inicioX === null) return;
+        deslocamento = deslocamentoInicial - (e.touches[0].clientX - inicioX);
+        desenhar();
+      },
+      { passive: true }
+    );
+    carrossel.addEventListener(
+      "touchend",
+      () => {
+        inicioX = null;
+        tocar();
+      },
+      { passive: true }
+    );
+
+    // não gasta processamento com a galeria fora da tela
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        ([entrada]) => (entrada.isIntersecting ? tocar() : pausar()),
+        { threshold: 0.15 }
+      ).observe(carrossel);
+    } else {
+      tocar();
+    }
+
+    document.addEventListener("visibilitychange", () =>
+      document.hidden ? pausar() : tocar()
+    );
+
+    let redimensionando = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(redimensionando);
+      redimensionando = setTimeout(() => {
+        const proporcao = larguraVolta ? deslocamento / larguraVolta : 0;
+        medir();
+        deslocamento = proporcao * larguraVolta;
+        desenhar();
+      }, 150);
+    });
+
+    medir();
+    desenhar();
+  });
+
+  // ---- vídeo do YouTube: só carrega o player depois do clique ----
+  document.querySelectorAll("[data-video]").forEach((facade) => {
+    const abrir = () => {
+      const id = facade.dataset.youtubeId;
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = "Compacto em vídeo — Misa Criolla";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      facade.replaceChildren(iframe);
+      facade.removeAttribute("role");
+      facade.removeAttribute("tabindex");
+      facade.style.cursor = "default";
+    };
+
+    facade.addEventListener("click", abrir);
+    facade.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        abrir();
+      }
+    });
+  });
+</script>

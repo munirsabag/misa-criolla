@@ -1,0 +1,13 @@
+# dependências
+node_modules/
+
+# build
+dist/
+.astro/
+
+# macOS
+.DS_Store
+
+# ambiente
+.env
+.env.production

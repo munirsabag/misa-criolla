@@ -52,6 +52,9 @@ const eventos = [
     id: "concerto-salvador",
     titulo: "Salvador",
     local: "Igreja de N. S. do Rosário dos Pretos · Pelourinho · 09 de junho de 2026",
+    // sentido da esteira: "direita" faz as fotos andarem no sentido oposto
+    // ao padrão. Sem essa linha, o carrossel anda pra esquerda.
+    sentido: "direita",
     fotos: fotos("concerto-salvador", "Concerto Misa Criolla em Salvador"),
   },
   {
@@ -121,6 +124,7 @@ const eventos = [
           <div
             class="carrossel"
             data-carrossel
+            data-sentido={evento.sentido === "direita" ? "-1" : "1"}
             role="group"
             aria-roledescription="carrossel"
             aria-label={`Fotos: ${evento.titulo}`}
@@ -429,6 +433,8 @@ const eventos = [
     const anterior = carrossel.querySelector("[data-anterior]");
     const proximo = carrossel.querySelector("[data-proximo]");
     const total = carrossel.querySelectorAll("[data-slide]").length;
+    // 1 = esteira anda pra esquerda (padrão) · -1 = anda pra direita
+    const sentido = Number(carrossel.dataset.sentido) || 1;
 
     let visiveis = 4;
     let larguraFoto = 0;
@@ -465,7 +471,7 @@ const eventos = [
 
       // avanço constante do movimento de fundo
       const velocidade = larguraFoto / (SEGUNDOS_POR_FOTO * 1000); // px por ms
-      deslocamento += velocidade * Math.min(decorrido, 100);
+      deslocamento += sentido * velocidade * Math.min(decorrido, 100);
 
       // as setas entram como um empurrão que vai sendo absorvido,
       // pra chegada ser suave em vez de um pulo
